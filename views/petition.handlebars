@@ -1,0 +1,14 @@
+{{#if errorMessage}}
+<div class="error">Oops! Something went wrong.</div>
+{{/if}}
+
+<form method="post">
+    <label for="first">First Name:</label>
+  <input name="first">
+  <label for="last">Last Name:</label>
+  <input name="last">
+  <input type="hidden" name="signature">
+  <canvas id="signature" width="600" height="100"></canvas>
+  <button>Sign</button>
+  <!-- <button type="button" name="clear">Clear</button> -->
+</form>
