@@ -1,4 +1,12 @@
 <div>
-    <h1>Thanks for signing!</h1>
-    <p><a href="/signatures">See who signed</a></p>
+    {{#if user}}
+    <h1>Thanks for signing, {{user.first}}!</h1>
+    {{#if count}}
+    <h2>Signature #{{count}}</h2>
+    {{/if}}
+    <div id="signature">
+    <img src="{{user.signature}}">
+</div>
+    {{/if}}
+    <p><a href="/petition/signatures">See who signed</a></p>
 </div>

@@ -1,14 +1,14 @@
-{{#if errorMessage}}
-<div class="error">Oops! Something went wrong.</div>
+{{#if error}}
+<div class="error">Oops! Something went wrong.<br>Please fill all the fields before signing.</div>
 {{/if}}
 
 <form method="post">
     <label for="first">First Name:</label>
-  <input name="first">
+  <input name="first" autocomplete="off">
   <label for="last">Last Name:</label>
-  <input name="last">
+  <input name="last" autocomplete="off">
   <input type="hidden" name="signature">
   <canvas id="signature" width="600" height="100"></canvas>
   <button>Sign</button>
-  <!-- <button type="button" name="clear">Clear</button> -->
+  <button type="button" name="clear">Clear</button>
 </form>
