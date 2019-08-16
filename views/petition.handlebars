@@ -8,6 +8,7 @@
   <label for="last">Last Name:</label>
   <input name="last" autocomplete="off">
   <input type="hidden" name="signature">
+  {{>csrf}}
   <canvas id="signature" width="600" height="100"></canvas>
   <button>Sign</button>
   <button type="button" name="clear">Clear</button>

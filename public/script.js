@@ -15,8 +15,6 @@ if (canvas.length) {
     canvas.on("mousedown", event => {
         setPosition(event);
         ctx.beginPath();
-        console.log("Mouse down:", event);
-        console.log(position.x, position.y);
     });
 
     canvas.on("mousemove", event => {
@@ -26,7 +24,6 @@ if (canvas.length) {
     });
 
     canvas.on("mouseup", () => {
-        // canvas.off("mousemove");
         ctx.closePath();
         signature = canvas[0].toDataURL();
         $("input[type='hidden']").val(signature);
@@ -47,10 +44,10 @@ if (canvas.length) {
     }
     function drawLine() {
         console.log("Drawing");
-        ctx.strokeStyle = "rgb(38, 17, 142)";
+        ctx.strokeStyle = "#FF5722";
         ctx.lineWidth = 1;
-        // ctx.lineCap = "round";
-        // ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
         ctx.moveTo(position.x, position.y);
         setPosition(event);
         ctx.lineTo(position.x, position.y);

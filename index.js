@@ -4,6 +4,7 @@ const express = require("express");
 const hb = require("express-handlebars");
 const db = require("./db");
 const cookieSession = require("cookie-session");
+const csurf = require("csurf");
 const chalk = require("chalk");
 
 const orange = chalk.rgb(237, 142, 53);
@@ -33,6 +34,15 @@ app.use(express.static("./public"));
 
 app.use("/favicon.ico", (req, res) => res.sendStatus(404));
 
+///// SECURITY MEASURES /////
+
+app.use(csurf());
+app.use(function(req, res, next) {
+    res.setHeader("X-Frame-Options", "DENY");
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
+
 ///// ROUTES /////
 
 app.get("/", (req, res) => {
@@ -43,7 +53,9 @@ app.get("/", (req, res) => {
 
 app.get("/petition", (req, res) => {
     console.log("Petition route");
-    res.render("petition", {});
+    res.render("petition", {
+        csrfToken: req.csrfToken()
+    });
 });
 
 app.post("/petition", (req, res) => {
@@ -60,6 +72,7 @@ app.post("/petition", (req, res) => {
         .catch(error => {
             console.log("ERROR:", error);
             res.render("petition", {
+                csrfToken: req.csrfToken(),
                 error: error
             });
         });
