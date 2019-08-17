@@ -48,14 +48,12 @@ app.use(function(req, res, next) {
 app.get("/", (req, res) => {
     // req.session starts as an empty object
     console.log("Root route");
-    res.redirect("/petition");
+    res.render("index");
 });
 
 app.get("/petition", (req, res) => {
     console.log("Petition route");
-    res.render("petition", {
-        csrfToken: req.csrfToken()
-    });
+    res.render("petition", {});
 });
 
 app.post("/petition", (req, res) => {
@@ -72,7 +70,6 @@ app.post("/petition", (req, res) => {
         .catch(error => {
             console.log("ERROR:", error);
             res.render("petition", {
-                csrfToken: req.csrfToken(),
                 error: error
             });
         });
