@@ -9,6 +9,7 @@ body {
     font-weight: 300;
     color: #eeeeee;
     width: 100vw;
+    overflow: auto;
     /* position: relative; */
     /* display: flex; */
     /* flex-direction: column; */
@@ -23,10 +24,32 @@ body {
     text-transform: uppercase;
     margin-bottom: 1em;
 }
+#header span {
+    color: #eeeeee;
+    font-weight: 300;
+    opacity: 1;
+}
+#supporters div {
+    /* opacity: 0.8; */
+
+    font-size: 1em;
+    line-height: 1.4;
+    /* font-family: "Varela Round", sans-serif;
+    font-feature-settings: "tnum";
+    -webkit-font-feature-settings: "tnum";
+    -moz-font-feature-settings: "tnum"; */
+}
+#supporters div span {
+    color: #ff5722;
+
+    font-family: "Varela Round", sans-serif;
+    font-feature-settings: "tnum";
+    -webkit-font-feature-settings: "tnum";
+    -moz-font-feature-settings: "tnum";
+}
 #title,
 #text,
-#petition,
-#thanks {
+main {
     height: 100vh;
     padding: 1.2em 1.2em;
 }
@@ -52,7 +75,7 @@ h1 span {
     font-size: 1.2em;
     letter-spacing: 0.035em;
     text-transform: uppercase;
-    word-break: break-word;
+    overflow-wrap: break-word;
     color: #ff5722;
 }
 
@@ -65,19 +88,24 @@ p span {
     opacity: 0.6;
 }
 a {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: #ff5722;
+    font-weight: 700;
     text-decoration: none;
 }
 a:visited {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     color: #ff5722;
-}
-a:hover {
-    text-decoration: underline;
 }
 .cat {
     color: #ff5722;
     font-weight: 700;
     margin-top: 1em;
-    display: block;
+    display: inline-block;
     font-size: 1.4em;
     line-height: 1.1;
     letter-spacing: 0.035em;
@@ -159,20 +187,97 @@ button[name="clear"] {
 #signed {
     background: #2d4059;
     overflow: hidden;
-    /* object-position: 50% 50%; */
-    /* position: relative; */
     text-align: center;
+    margin-bottom: 1em;
 }
-img {
-    /* position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    max-height: 100%;
-    margin-left: -100%; /* Half the width */
-    /* min-width: 100%; */
-    /* margin: 0 -50%; */
-    /* min-height: 100%; */
-    object-fit: cover;
-    /* transform: scale(2); */
+#thanks h1 + p {
+    font-size: 1em;
+    letter-spacing: 0.05em;
+}
+.identifier {
+    background: #eee;
+    color: #2d4059;
+    border-radius: 5px;
+    font-size: 0.8em !important;
+    padding: 0.2em 0.4em;
+    /* margin-top: 0.5em; */
+    display: inline-block;
+}
+/* MEDIA QUERIES */
+
+@media only screen and (min-width: 640px) {
+    main {
+        margin: 2em auto;
+        max-width: 80%;
+    }
+    #arrowdown {
+        display: none;
+    }
+    #title,
+    #text {
+        height: auto;
+    }
+}
+@media only screen and (min-width: 800px) {
+    main {
+        margin: 2em auto;
+        max-width: 80%;
+    }
+    wbr {
+        display: none;
+    }
+    #arrowdown {
+        display: none;
+    }
+    #title,
+    #text {
+        height: auto;
+    }
+}
+@media only screen and (min-width: 1000px) {
+    main {
+        margin: 2em auto;
+        max-width: 40em;
+        height: auto;
+    }
+    wbr {
+        display: none;
+    }
+    #arrowdown {
+        display: none;
+    }
+    h1 {
+        line-height: 1.2;
+        max-width: auto;
+    }
+    p {
+        max-width: 75%;
+        line-height: 1.6;
+    }
+    #title,
+    #text {
+        width: 100%;
+        height: auto;
+    }
+    a {
+        transition: all 0.6s;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .cat:hover {
+        /* color: #eee; */
+        opacity: 0.6;
+        text-decoration: none;
+    }
+    #header {
+        max-width: 100%;
+        font-size: 2.2em;
+    }
+    .canvas-btn {
+        margin-top: 1em;
+    }
+    label {
+        margin-top: 2em;
+    }
 }

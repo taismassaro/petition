@@ -108,7 +108,18 @@ app.get("/petition/signatures", (req, res) => {
             .then(signers => {
                 console.log("Signers:", signers.rows);
                 res.render("signatures", {
-                    signers: signers.rows
+                    signers: signers.rows,
+                    helpers: {
+                        incremented(index) {
+                            console.log(index);
+                            index++;
+                            if (index < 10) {
+                                return "0" + index;
+                            } else {
+                                return index;
+                            }
+                        }
+                    }
                 });
             })
             .catch(error => {

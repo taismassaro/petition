@@ -1,4 +1,14 @@
-    <h1>These are the people who already supported our cause:</h1>
+<main id="supporters">
+    <p id="header">make teleportation happen <span>supporters</span></p>
+<div>
 {{#signers}}
-<div>{{first}} {{last}}</div>
+{{#unless @last}}
+    <div><span>{{incremented @index}}</span>&emsp;{{first}} {{last}}</div>
+    {{/unless}}
+    {{#if @last}}
+    <div><span>{{incremented @index}}</span>&emsp;<strong>{{first}} {{last}}</strong>&ensp;<div class="identifier">there you are! 😁</div></div>
+
+    {{/if}}
 {{/signers}}
+</div>
+</main>
