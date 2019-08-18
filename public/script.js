@@ -1,5 +1,6 @@
 const canvas = $("canvas");
 const canvasContainer = $(".canvas");
+const signatureInput = $("input[name='signature']");
 const clear = $("button[name='clear']");
 
 if (canvas.length) {
@@ -7,60 +8,78 @@ if (canvas.length) {
     resizeCanvas();
 
     $(window).on("resize orientationchange", resizeCanvas);
-    console.log(ctx);
 
     let position = {
         x: 0,
         y: 0
     };
-
     let signature;
 
     ///// SIGNATURE EVENTS /////
-    canvas.on("mousedown", event => {
-        setPosition(event);
-        ctx.beginPath();
+
+    canvas.on("mousedown touchstart", event => {
+        if (event.type === "touchstart") {
+            event.preventDefault();
+            setPosition(event, "touch");
+        } else {
+            setPosition(event);
+        }
     });
 
-    canvas.on("mousemove", event => {
-        if (event.buttons === 1) {
+    canvas.on("mousemove touchmove", event => {
+        if (event.type === "touchmove") {
+            event.preventDefault();
+            drawLine("touch");
+        } else if (event.buttons === 1) {
             drawLine();
         }
     });
 
-    canvas.on("mouseup", () => {
-        ctx.closePath();
+    canvas.on("mouseup touchend", () => {
         signature = canvas[0].toDataURL();
-        $("input[name='signature']").val(signature);
-        console.log("Signature URL:", signature);
+        signatureInput.val(signature);
     });
 
     clear.on("click", () => {
-        console.log("Clear");
-        $("input[name='signature']").val(null);
-        ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
+        clearCanvas();
     });
 
-    ///// SIGNATURE CANVAS FUNCTIONS /////
+    ///// CANVAS FUNCTIONS /////
 
     function resizeCanvas() {
         ctx.canvas.width = canvasContainer[0].offsetWidth;
         ctx.canvas.height = canvasContainer[0].offsetHeight;
     }
 
-    function setPosition(event) {
-        position.x = event.offsetX;
-        position.y = event.offsetY;
+    function clearCanvas() {
+        signatureInput.val(null);
+        ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
     }
-    function drawLine() {
-        console.log("Drawing");
+
+    function setPosition(event, touch) {
+        if (touch && event.targetTouches.length === 1) {
+            let touch = event.targetTouches[0];
+            position.x = touch.pageX - touch.target.offsetLeft;
+            position.y = touch.pageY - touch.target.offsetTop;
+        } else {
+            position.x = event.offsetX;
+            position.y = event.offsetY;
+        }
+    }
+    function drawLine(touch) {
         ctx.strokeStyle = "#FF5722";
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 2;
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
+        ctx.beginPath();
         ctx.moveTo(position.x, position.y);
-        setPosition(event);
+        if (touch) {
+            setPosition(event, touch);
+        } else {
+            setPosition(event);
+        }
         ctx.lineTo(position.x, position.y);
         ctx.stroke();
+        ctx.closePath();
     }
 }

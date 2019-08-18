@@ -96,21 +96,27 @@ app.get("/petition/thanks", (req, res) => {
             .catch(error => {
                 console.log("ERROR", error);
             });
+    } else {
+        res.redirect("/");
     }
 });
 
 app.get("/petition/signatures", (req, res) => {
     console.log("Signatures page");
-    db.getSigners()
-        .then(signers => {
-            console.log("Signers:", signers.rows);
-            res.render("signatures", {
-                signers: signers.rows
+    if (req.session.userSignature) {
+        db.getSigners()
+            .then(signers => {
+                console.log("Signers:", signers.rows);
+                res.render("signatures", {
+                    signers: signers.rows
+                });
+            })
+            .catch(error => {
+                console.log(error);
             });
-        })
-        .catch(error => {
-            console.log(error);
-        });
+    } else {
+        res.redirect("/");
+    }
 });
 
 app.listen(8080, () => console.log("Port 8080: Express server running."));
