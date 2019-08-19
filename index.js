@@ -47,6 +47,29 @@ app.use(function(req, res, next) {
     next();
 });
 
+///// CHECK LOGIN /////
+app.use((req, res, next) => {
+    // if user is not logged in
+    if (!req.session.user) {
+        //if safe route
+        if (["/", "/petition/register", "/petition/login"].includes(req.url)) {
+            next();
+        } else {
+            res.redirect("/");
+        }
+    } else {
+        if (["/", "/petition/register", "/petition/login"].includes(req.url)) {
+            if (req.session.user.signature) {
+                res.redirect("/petition/thanks");
+            } else {
+                res.redirect("/petition/sign");
+            }
+        } else {
+            next();
+        }
+    }
+});
+
 ///// ROUTES /////
 
 ///// INDEX /////
@@ -73,13 +96,13 @@ app.post("/petition/login", (req, res) => {
                 if (match === true) {
                     console.log("Is it a match?", blue(match));
                     db.getSignature(check.id).then(user => {
+                        req.session.user = {
+                            userId: check.id,
+                            first: check.first
+                        };
                         console.log("USER:", user.rows[0].signature);
                         if (user.rows[0].signature) {
-                            req.session.user = {
-                                signature: true,
-                                userId: check.id,
-                                first: check.first
-                            };
+                            req.session.user.signature = true;
                             res.redirect("/petition/thanks");
                         } else {
                             res.redirect("/petition/sign");
@@ -99,6 +122,13 @@ app.post("/petition/login", (req, res) => {
                 error: error
             });
         });
+});
+
+///// LOGOUT /////
+app.get("/petition/logout", (req, res) => {
+    console.log("Root route");
+    req.session.user = null;
+    res.redirect("/");
 });
 
 ///// REGISTER /////
