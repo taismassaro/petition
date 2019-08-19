@@ -1,0 +1,20 @@
+<main id="register">
+    {{>header}}
+{{#if error}}
+<div class="error">Oops! Something went wrong. Please fill all the fields to register.</div>
+{{/if}}
+
+<form method="post">
+    <label for="first">First Name</label>
+  <input type="text" name="first" autocomplete="off" required>
+  <label for="last">Last Name</label>
+  <input type="text" name="last" autocomplete="off" required>
+  <label for="email">E-mail</label>
+  <input type="email" name="email" required>
+  <label for="password">Password</label>
+  <input type="password" name="password" required>
+  {{>csrf}}
+    <button id="sign-btn" class="cat">Register</button>
+  </div>
+</form>
+</main>

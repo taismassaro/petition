@@ -6,10 +6,12 @@
         <label>Signature #{{count}}</label>
         {{/if}}
 
-        {{#if user}}
+        {{#if signature}}
         <div id="signed" class="canvas">
-            <img src="{{user.signature}}">
+            <img src="{{signature}}">
         </div>
+        {{/if}}
+        {{#if user}}
         <h1>Thanks for your support, {{user.first}}!</h1>
         {{/if}}
         <p class="cat"><a href="/petition/signatures">Check out who else signed</a></p>

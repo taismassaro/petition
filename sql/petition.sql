@@ -1,10 +1,17 @@
-DROP TABLE IF EXISTS petition;
+DROP TABLE IF EXISTS signatures;
+DROP TABLE IF EXISTS users;
 
-CREATE TABLE petition(
+CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     first VARCHAR NOT NULL CHECK (first != ''),
     last VARCHAR NOT NULL CHECK (last != ''),
-    signature VARCHAR NOT NULL CHECK (signature != '')
+    email VARCHAR NOT NULL UNIQUE CHECK (email != ''),
+    password VARCHAR NOT NULL CHECK (password != ''),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO petition (first, last, signature) VALUES ('Leonardo DiCaprio', 41, 1);
+CREATE TABLE signatures(
+    user_id INTEGER NOT NULL UNIQUE REFERENCES users(id),
+    signature VARCHAR NOT NULL CHECK (signature != ''),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

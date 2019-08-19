@@ -2,9 +2,13 @@
 
 const express = require("express");
 const hb = require("express-handlebars");
-const db = require("./db");
+
+const db = require("./utils/db");
 const cookieSession = require("cookie-session");
+
+const { hash, compare } = require("./utils/bc");
 const csurf = require("csurf");
+
 const chalk = require("chalk");
 
 const orange = chalk.rgb(237, 142, 53);
@@ -45,47 +49,143 @@ app.use(function(req, res, next) {
 
 ///// ROUTES /////
 
+///// INDEX /////
+
 app.get("/", (req, res) => {
-    // req.session starts as an empty object
     console.log("Root route");
     res.render("index");
 });
 
-app.get("/petition", (req, res) => {
-    console.log("Petition route");
-    res.render("petition", {});
+///// LOGIN /////
+
+app.get("/petition/login", (req, res) => {
+    console.log("Login route");
+    res.render("login");
 });
 
-app.post("/petition", (req, res) => {
-    console.log("POST request");
+app.post("/petition/login", (req, res) => {
+    console.log("Login POST request");
 
-    db.insertData(req.body.first, req.body.last, req.body.signature)
-        .then(id => {
-            console.log("Id:", id.rows[0].id);
-            req.session.userSignature = id.rows[0].id;
-            console.log("SUCCESS! Redirecting...");
-            console.log("userSignature:", req.session.userSignature);
-            res.redirect("/petition/thanks");
+    db.getPassword(req.body.email)
+        .then(check => {
+            console.log("getPassword:", check);
+            compare(req.body.password, check.password).then(match => {
+                if (match === true) {
+                    console.log("Is it a match?", blue(match));
+                    db.getSignature(check.id).then(user => {
+                        console.log("USER:", user.rows[0].signature);
+                        if (user.rows[0].signature) {
+                            req.session.user = {
+                                signature: true,
+                                userId: check.id,
+                                first: check.first
+                            };
+                            res.redirect("/petition/thanks");
+                        } else {
+                            res.redirect("/petition/sign");
+                        }
+                    });
+                } else {
+                    console.log(orange("Wrong credentials"));
+                    res.render("login", {
+                        error: true
+                    });
+                }
+            });
         })
         .catch(error => {
-            console.log("ERROR:", error);
-            res.render("petition", {
+            console.log("ERROR:", orange(error));
+            res.render("login", {
                 error: error
             });
         });
 });
 
+///// REGISTER /////
+
+app.get("/petition/register", (req, res) => {
+    console.log("Register route");
+    res.render("register");
+});
+
+app.post("/petition/register", (req, res) => {
+    console.log("Register POST request");
+    hash(req.body.password)
+        .then(hash => {
+            req.session.user = {
+                first: req.body.first,
+                last: req.body.last,
+                email: req.body.email,
+                password: hash
+            };
+            db.registerUser(req.session.user)
+                .then(id => {
+                    console.log("Id:", id.rows[0].id);
+                    req.session.user.userId = id.rows[0].id;
+                    console.log("SUCCESS! Redirecting...");
+                    console.log("user_id:", req.session.user.userId);
+                    res.redirect("/petition/sign");
+                })
+                .catch(error => {
+                    console.log("ERROR:", orange(error));
+                    res.render("register", {
+                        error: error
+                    });
+                });
+        })
+        .catch(error => {
+            console.log("ERROR:", orange(error));
+            res.render("register", {
+                error: error
+            });
+        });
+});
+
+///// CANVAS SIGNING /////
+
+app.get("/petition/sign", (req, res) => {
+    console.log("Signature route");
+    res.render("sign");
+});
+
+app.post("/petition/sign", (req, res) => {
+    console.log("Signature POST request");
+    if (req.body.signature) {
+        req.session.user.signature = true;
+        console.log("Session user:", req.session.user);
+        db.addSignature(req.session.user.userId, req.body.signature)
+            .then(() => {
+                res.redirect("/petition/thanks");
+            })
+            .catch(error => {
+                console.log("ERROR:", orange(error));
+                res.render("sign", {
+                    error: error
+                });
+            });
+    } else {
+        res.render("sign", {
+            error: true
+        });
+    }
+});
+
+///// THANKS /////
+
 app.get("/petition/thanks", (req, res) => {
     console.log("Thanks page");
-    if (req.session.userSignature) {
+    console.log("Session user:", req.session);
+    if (req.session.user.signature) {
         console.log("User signed");
-        db.getUser(req.session.userSignature)
-            .then(user => {
+        db.getSignature(req.session.user.userId)
+            .then(signature => {
+                console.log("Signature:", signature);
                 db.getCount()
                     .then(count => {
                         console.log("Count:", count);
                         res.render("thanks", {
-                            user: user.rows[0],
+                            user: req.session.user,
+                            signature: signature.rows[0].signature,
                             count: count.rows[0].count
                         });
                     })
@@ -101,9 +201,11 @@ app.get("/petition/thanks", (req, res) => {
     }
 });
 
+///// SIGNATURES /////
+
 app.get("/petition/signatures", (req, res) => {
     console.log("Signatures page");
-    if (req.session.userSignature) {
+    if (req.session.user) {
         db.getSigners()
             .then(signers => {
                 console.log("Signers:", signers.rows);
