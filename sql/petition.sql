@@ -1,4 +1,5 @@
-DROP TABLE IF EXISTS signatures;
+DROP TABLE IF EXISTS user_details CASCADE;
+DROP TABLE IF EXISTS signatures CASCADE;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users(
@@ -7,6 +8,14 @@ CREATE TABLE users(
     last VARCHAR NOT NULL CHECK (last != ''),
     email VARCHAR NOT NULL UNIQUE CHECK (email != ''),
     password VARCHAR NOT NULL CHECK (password != ''),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE user_details(
+    user_id INTEGER NOT NULL UNIQUE REFERENCES users(id),
+    age INTEGER,
+    city VARCHAR,
+    url VARCHAR,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

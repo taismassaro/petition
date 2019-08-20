@@ -154,7 +154,7 @@ app.post("/petition/register", (req, res) => {
                     req.session.user.userId = id.rows[0].id;
                     console.log("SUCCESS! Redirecting...");
                     console.log("user_id:", req.session.user.userId);
-                    res.redirect("/petition/sign");
+                    res.redirect("/petition/profile");
                 })
                 .catch(error => {
                     console.log("ERROR:", orange(error));
@@ -167,6 +167,30 @@ app.post("/petition/register", (req, res) => {
             console.log("ERROR:", orange(error));
             res.render("register", {
                 error: error
+            });
+        });
+});
+
+///// PROFILE /////
+
+app.get("/petition/profile", (req, res) => {
+    console.log("Profile route");
+    res.render("profile");
+});
+
+app.post("/petition/profile", (req, res) => {
+    let user = req.session.user;
+    console.log("Profile POST request");
+    console.log("Request:", req.body);
+    // console.log(checkUrl(req.body.url));
+    db.addProfile(user.userId, req.body)
+        .then(() => {
+            res.redirect("/petition/sign");
+        })
+        .catch(error => {
+            console.log("ERROR:", orange(error));
+            res.render("profile", {
+                error: "try again"
             });
         });
 });
@@ -262,4 +286,6 @@ app.get("/petition/signatures", (req, res) => {
     }
 });
 
-app.listen(8080, () => console.log("Port 8080: Express server running."));
+app.listen(process.env.PORT || 8080, () =>
+    console.log(`Express server running.`)
+);

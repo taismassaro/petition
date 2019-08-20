@@ -1,9 +1,14 @@
 const spicedPg = require("spiced-pg");
-const { petitionUser, petitionPass } = require("../secrets.json");
 
-const db = spicedPg(
-    `postgres:${petitionUser}:${petitionPass}@localhost:5432/petition`
-);
+let db;
+if (process.env.DATABASE_URL) {
+    db = spicedPg(process.env.DATABASE_URL);
+} else {
+    const { petitionUser, petitionPass } = require("../secrets.json");
+    db = spicedPg(
+        `postgres:${petitionUser}:${petitionPass}@localhost:5432/petition`
+    );
+}
 
 exports.registerUser = user => {
     console.log("Registering user data.");
@@ -14,6 +19,22 @@ exports.registerUser = user => {
         [user.first, user.last, user.email, user.password]
     );
 };
+
+exports.addProfile = (userId, userInfo) => {
+    console.log("Adding user profile.");
+    return db.query(
+        `INSERT INTO user_details (user_id, age, city, url)
+        VALUES ($1, $2, $3, $4)`,
+        [userId, userInfo.age || null, userInfo.city, checkUrl(userInfo.url)]
+    );
+};
+function checkUrl(url) {
+    if (!url.startsWith("http://") || !url.startsWith("https://")) {
+        return "http://" + url;
+    } else {
+        return url;
+    }
+}
 exports.getPassword = email => {
     console.log("Checking credentials.");
     return db
@@ -43,7 +64,10 @@ exports.getSignature = id => {
 
 exports.getSigners = () => {
     return db.query(
-        `SELECT id, first, last FROM users WHERE id IN (SELECT user_id FROM signatures WHERE user_id = id)`
+        `SELECT id, first, last, age, city, url FROM users
+        JOIN user_details
+        ON id = user_details.user_id
+        WHERE user_details.user_id IN (SELECT user_id FROM signatures WHERE signatures.user_id = user_details.user_id)`
     );
 };
 

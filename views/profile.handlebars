@@ -1,0 +1,18 @@
+<main id="profile">
+    {{>nav}}
+{{#if error}}
+<div class="error">Oops! Something went wrong. Please {{error}}.</div>
+{{/if}}
+
+<form method="post">
+    <label for="age">Age</label>
+  <input type="number" name="age" autocomplete="off">
+  <label for="city">City</label>
+  <input type="text" name="city" autocomplete="off">
+  <label for="url">Your website</label>
+  <input type="text" name="url" autocomplete="off">
+  {{>csrf}}
+    <button id="sign-btn" class="cat">Register</button>
+  </div>
+</form>
+</main>

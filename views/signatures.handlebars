@@ -3,10 +3,10 @@
 <div>
 {{#signers}}
 {{#unless @last}}
-    <div><span>{{incremented @index}}</span>&emsp;{{first}} {{last}}</div>
+    <div><span>{{incremented @index}}</span>&emsp;{{first}} {{last}}&ensp;|&ensp;{{age}}&ensp;|&ensp;{{city}}</div>
     {{/unless}}
     {{#if @last}}
-    <div><span>{{incremented @index}}</span>&emsp;<strong>{{first}} {{last}}</strong>&ensp;<div class="identifier">there you are! 😁</div></div>
+    <div><span>{{incremented @index}}</span>&emsp;<strong>{{first}} {{last}}</strong>&ensp;|&ensp;{{age}}&ensp;|&ensp;{{city}}</div>
 
     {{/if}}
 {{/signers}}
