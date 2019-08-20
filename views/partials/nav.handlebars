@@ -1,1 +1,12 @@
-<p id="header">make teleportation happen</p>
+{{#if title}}
+<p id="header"><a href="/">make teleportation happen</a></p>
+{{/if}}
+{{#if nav}}
+    <nav>
+        {{#if user}}
+        Hi, <a href="/profile">{{user.first}}</a>&ensp;|&ensp;<a href="/supporters">Supporters</a>&ensp;|&ensp;<a href="/logout">Logout</a>
+        {{else}}
+        <a href="/login">Login</a>
+        {{/if}}
+    </nav>
+{{/if}}

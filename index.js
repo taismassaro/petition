@@ -48,27 +48,27 @@ app.use(function(req, res, next) {
 });
 
 ///// CHECK LOGIN /////
-app.use((req, res, next) => {
-    // if user is not logged in
-    if (!req.session.user) {
-        //if safe route
-        if (["/", "/petition/register", "/petition/login"].includes(req.url)) {
-            next();
-        } else {
-            res.redirect("/");
-        }
-    } else {
-        if (["/", "/petition/register", "/petition/login"].includes(req.url)) {
-            if (req.session.user.signature) {
-                res.redirect("/petition/thanks");
-            } else {
-                res.redirect("/petition/sign");
-            }
-        } else {
-            next();
-        }
-    }
-});
+// app.use((req, res, next) => {
+//     // if user is not logged in
+//     if (!req.session.user) {
+//         //if safe route
+//         if (["/", "/register", "/login"].includes(req.url)) {
+//             next();
+//         } else {
+//             res.redirect("/");
+//         }
+//     } else {
+//         if (["/", "/register", "/login"].includes(req.url)) {
+//             if (req.session.user.signature) {
+//                 res.redirect("/thanks");
+//             } else {
+//                 res.redirect("/sign");
+//             }
+//         } else {
+//             next();
+//         }
+//     }
+// });
 
 ///// ROUTES /////
 
@@ -76,17 +76,25 @@ app.use((req, res, next) => {
 
 app.get("/", (req, res) => {
     console.log("Root route");
-    res.render("index");
+    if (req.session.user) {
+        res.render("index", {
+            user: req.session.user,
+            logged: true
+            //pass conditionals to handlebars (nav+registerbutton)
+        });
+    } else {
+        res.render("index");
+    }
 });
 
 ///// LOGIN /////
 
-app.get("/petition/login", (req, res) => {
+app.get("/login", (req, res) => {
     console.log("Login route");
     res.render("login");
 });
 
-app.post("/petition/login", (req, res) => {
+app.post("/login", (req, res) => {
     console.log("Login POST request");
 
     db.getPassword(req.body.email)
@@ -103,14 +111,15 @@ app.post("/petition/login", (req, res) => {
                         console.log("USER:", user.rows[0].signature);
                         if (user.rows[0].signature) {
                             req.session.user.signature = true;
-                            res.redirect("/petition/thanks");
+                            res.redirect("/thanks");
                         } else {
-                            res.redirect("/petition/sign");
+                            res.redirect("/sign");
                         }
                     });
                 } else {
                     console.log(orange("Wrong credentials"));
                     res.render("login", {
+                        nonav: true,
                         error: true
                     });
                 }
@@ -125,7 +134,7 @@ app.post("/petition/login", (req, res) => {
 });
 
 ///// LOGOUT /////
-app.get("/petition/logout", (req, res) => {
+app.get("/logout", (req, res) => {
     console.log("Root route");
     req.session.user = null;
     res.redirect("/");
@@ -133,12 +142,14 @@ app.get("/petition/logout", (req, res) => {
 
 ///// REGISTER /////
 
-app.get("/petition/register", (req, res) => {
+app.get("/register", (req, res) => {
     console.log("Register route");
-    res.render("register");
+    res.render("register", {
+        title: true
+    });
 });
 
-app.post("/petition/register", (req, res) => {
+app.post("/register", (req, res) => {
     console.log("Register POST request");
     hash(req.body.password)
         .then(hash => {
@@ -154,11 +165,12 @@ app.post("/petition/register", (req, res) => {
                     req.session.user.userId = id.rows[0].id;
                     console.log("SUCCESS! Redirecting...");
                     console.log("user_id:", req.session.user.userId);
-                    res.redirect("/petition/profile");
+                    res.redirect("/profile");
                 })
                 .catch(error => {
                     console.log("ERROR:", orange(error));
                     res.render("register", {
+                        title: true,
                         error: error
                     });
                 });
@@ -166,6 +178,7 @@ app.post("/petition/register", (req, res) => {
         .catch(error => {
             console.log("ERROR:", orange(error));
             res.render("register", {
+                title: true,
                 error: error
             });
         });
@@ -173,19 +186,19 @@ app.post("/petition/register", (req, res) => {
 
 ///// PROFILE /////
 
-app.get("/petition/profile", (req, res) => {
+app.get("/profile", (req, res) => {
     console.log("Profile route");
     res.render("profile");
 });
 
-app.post("/petition/profile", (req, res) => {
+app.post("/profile", (req, res) => {
     let user = req.session.user;
     console.log("Profile POST request");
     console.log("Request:", req.body);
     // console.log(checkUrl(req.body.url));
     db.addProfile(user.userId, req.body)
         .then(() => {
-            res.redirect("/petition/sign");
+            res.redirect("/sign");
         })
         .catch(error => {
             console.log("ERROR:", orange(error));
@@ -197,19 +210,19 @@ app.post("/petition/profile", (req, res) => {
 
 ///// CANVAS SIGNING /////
 
-app.get("/petition/sign", (req, res) => {
+app.get("/sign", (req, res) => {
     console.log("Signature route");
     res.render("sign");
 });
 
-app.post("/petition/sign", (req, res) => {
+app.post("/sign", (req, res) => {
     console.log("Signature POST request");
     if (req.body.signature) {
         req.session.user.signature = true;
         console.log("Session user:", req.session.user);
         db.addSignature(req.session.user.userId, req.body.signature)
             .then(() => {
-                res.redirect("/petition/thanks");
+                res.redirect("/thanks");
             })
             .catch(error => {
                 console.log("ERROR:", orange(error));
@@ -226,7 +239,7 @@ app.post("/petition/sign", (req, res) => {
 
 ///// THANKS /////
 
-app.get("/petition/thanks", (req, res) => {
+app.get("/thanks", (req, res) => {
     console.log("Thanks page");
     console.log("Session user:", req.session);
     if (req.session.user.signature) {
@@ -257,7 +270,7 @@ app.get("/petition/thanks", (req, res) => {
 
 ///// SIGNATURES /////
 
-app.get("/petition/signatures", (req, res) => {
+app.get("/signatures", (req, res) => {
     console.log("Signatures page");
     if (req.session.user) {
         db.getSigners()
