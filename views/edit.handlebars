@@ -1,0 +1,27 @@
+<main id="edit">
+    {{>nav}}
+{{#if error}}
+<div class="error">Oops! Something went wrong. Please {{error}}.</div>
+{{/if}}
+
+<form method="post">
+    {{#if user}}
+  <label for="first">First Name</label>
+  <input type="text" name="first" autocomplete="off" value="{{user.first}}" placeholder="Alice">
+  <label for="last">Last Name</label>
+  <input type="text" name="last" autocomplete="off" value="{{user.last}}" placeholder="Bowman">
+  <label for="email">E-mail</label>
+  <input type="email" name="email" value="{{user.email}}" placeholder="alice@nasa.gov">
+  <label for="password">Password</label>
+  <input type="password" name="password" placeholder="te£ep0rt@t10n">
+  <label for="age">Age</label>
+<input type="number" name="age" autocomplete="off" value="{{user.age}}" placeholder="59">
+<label for="city">City</label>
+<input type="text" name="city" autocomplete="off" value="{{user.city}}" placeholder="Plutown">
+<label for="url">Your website</label>
+<input type="text" name="url" autocomplete="off" placeholder="https://teleport.com" value="{{user.url}}">
+{{/if}}
+  {{>csrf}}
+    <button id="sign-btn" class="cat">Update profile</button>
+</form>
+</main>

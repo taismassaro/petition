@@ -1,12 +1,12 @@
 {{#if title}}
 <p id="header"><a href="/">make teleportation happen</a></p>
 {{/if}}
-{{#if nav}}
-    <nav>
-        {{#if user}}
-        Hi, <a href="/profile">{{user.first}}</a>&ensp;|&ensp;<a href="/supporters">Supporters</a>&ensp;|&ensp;<a href="/logout">Logout</a>
-        {{else}}
-        <a href="/login">Login</a>
-        {{/if}}
-    </nav>
-{{/if}}
+{{#unless title}}
+<nav>
+    {{#if user}}
+    Hi, <a href="/edit">{{user.first}}</a>{{#if user.signature}}{{#unless route}}&ensp;|&ensp;<a href="/supporters">Supporters</a>{{/unless}}{{/if}}&ensp;|&ensp;<a href="/logout">Logout</a>
+    {{else}}
+    <a href="/login">Login</a>
+    {{/if}}
+</nav>
+{{/unless}}

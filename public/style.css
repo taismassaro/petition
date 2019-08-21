@@ -157,8 +157,8 @@ input {
     margin-bottom: 0.5em;
 }
 [placeholder]::-webkit-input-placeholder {
-    color: rgb(202, 220, 224);
-    font-style: italic;
+    color: #eeeeee;
+    opacity: 0.1;
 }
 #signature,
 #signed {

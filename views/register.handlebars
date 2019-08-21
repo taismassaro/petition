@@ -6,15 +6,14 @@
 
 <form method="post">
     <label for="first">First Name</label>
-  <input type="text" name="first" autocomplete="off" required>
+  <input type="text" name="first" autocomplete="off" placeholder="Alice" required>
   <label for="last">Last Name</label>
-  <input type="text" name="last" autocomplete="off" required>
+  <input type="text" name="last" autocomplete="off" placeholder="Bowman" required>
   <label for="email">E-mail</label>
-  <input type="email" name="email" required>
+  <input type="email" name="email" placeholder="alice@nasa.gov" required>
   <label for="password">Password</label>
-  <input type="password" name="password" required>
+  <input type="password" name="password" placeholder="te£ep0rt@t10n" required>
   {{>csrf}}
     <button id="sign-btn" class="cat">Next</button>
-  </div>
 </form>
 </main>

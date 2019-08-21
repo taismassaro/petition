@@ -42,14 +42,11 @@ exports.addProfile = (userId, userInfo) => {
         [userId, userInfo.age || null, userInfo.city, checkUrl(userInfo.url)]
     );
 };
-
 function checkUrl(url) {
-    if (url !== "") {
-        if (url.startsWith("http://") || url.startsWith("https://")) {
-            return url;
-        } else {
-            return "http://" + url;
-        }
+    if (!url.startsWith("http://") || !url.startsWith("https://")) {
+        return "http://" + url;
+    } else {
+        return url;
     }
 }
 
@@ -57,7 +54,6 @@ exports.updateProfile = (userId, userInfo) => {
     console.log("Updating user profile.");
     return updateUserDb(userId, userInfo);
 };
-
 function updateUserDb(userId, userInfo) {
     if (userInfo.password) {
         db.query(

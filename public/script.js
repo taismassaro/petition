@@ -18,6 +18,7 @@ if (canvas.length) {
     ///// SIGNATURE EVENTS /////
 
     canvas.on("mousedown touchstart", event => {
+        event.stopPropagation();
         if (event.type === "touchstart") {
             event.preventDefault();
             setPosition(event, "touch");
