@@ -2,12 +2,7 @@ const express = require("express");
 const router = (exports.router = express.Router());
 
 const db = require("./utils/db");
-const {
-    requireId,
-    requireNoId,
-    requireSignature,
-    requireNoSignature
-} = require("./middleware");
+const { requireNoId } = require("./middleware");
 
 const { hash, compare } = require("./utils/bc");
 
@@ -20,7 +15,9 @@ const blue = chalk.rgb(28, 133, 230);
 
 router.get("/login", requireNoId, (req, res) => {
     console.log("Login route");
-    res.render("login");
+    res.render("login", {
+        title: true
+    });
 });
 
 router.post("/login", requireNoId, (req, res) => {
@@ -31,23 +28,33 @@ router.post("/login", requireNoId, (req, res) => {
             compare(req.body.password, check.password).then(match => {
                 if (match === true) {
                     console.log("Is it a match?", blue(match));
-                    db.getSignature(check.id).then(user => {
-                        req.session.user = {
-                            userId: check.id,
-                            first: check.first
-                        };
-                        console.log("USER:", user.rows[0].signature);
-                        if (user.rows[0].signature) {
-                            req.session.user.signature = true;
+                    db.getSignature(check.id)
+                        .then(signature => {
+                            console.log("getSignature response:", signature);
+                            req.session.user = {
+                                userId: check.id,
+                                first: check.first
+                            };
+                            if (signature) {
+                                req.session.user.signature = true;
+                            }
+                            console.log("Session user:", req.session.user);
                             res.redirect("/thanks");
-                        } else {
-                            res.redirect("/sign");
-                        }
-                    });
+                        })
+                        .catch(error => {
+                            console.log("ERROR:", orange(error));
+                            res.render("login", {
+                                title: true,
+                                error: "Something went wrong. Please try again."
+                            });
+                        });
+
+                    //
                 } else {
                     console.log(orange("Wrong credentials"));
                     res.render("login", {
-                        error: true
+                        title: true,
+                        error: "Incorrect password. Please try again."
                     });
                 }
             });
@@ -55,7 +62,9 @@ router.post("/login", requireNoId, (req, res) => {
         .catch(error => {
             console.log("ERROR:", orange(error));
             res.render("login", {
-                error: error
+                title: true,
+                error:
+                    "This email is not registered yet. Please sign up to show your support."
             });
         });
 });

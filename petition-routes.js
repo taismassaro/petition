@@ -4,12 +4,9 @@ const router = (exports.router = express.Router());
 const db = require("./utils/db");
 const {
     requireId,
-    requireNoId,
     requireSignature,
     requireNoSignature
 } = require("./middleware");
-
-const { hash, compare } = require("./utils/bc");
 
 const chalk = require("chalk");
 

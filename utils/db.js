@@ -10,6 +10,12 @@ if (process.env.DATABASE_URL) {
     );
 }
 
+const { hash, compare } = require("./bc");
+
+const chalk = require("chalk");
+const orange = chalk.rgb(237, 142, 53);
+const blue = chalk.rgb(28, 133, 230);
+
 exports.registerUser = user => {
     console.log("Registering user data.");
     return db.query(
@@ -55,21 +61,29 @@ function checkUrl(url) {
 
 exports.updateProfile = (userId, userInfo) => {
     console.log("Updating user profile.");
+    console.log("User info:", userInfo);
+
     return updateUserDb(userId, userInfo);
 };
 
 function updateUserDb(userId, userInfo) {
     if (userInfo.password) {
-        db.query(
-            `UPDATE users SET first = $2, last = $3, email = $4, password = $5 WHERE id = $1`,
-            [
-                userId,
-                userInfo.first,
-                userInfo.last,
-                userInfo.email,
-                userInfo.password
-            ]
-        );
+        hash(userInfo.password)
+            .then(hash => {
+                db.query(
+                    `UPDATE users SET first = $2, last = $3, email = $4, password = $5 WHERE id = $1`,
+                    [
+                        userId,
+                        userInfo.first,
+                        userInfo.last,
+                        userInfo.email,
+                        hash
+                    ]
+                );
+            })
+            .catch(error => {
+                console.log("ERROR:", blue(error));
+            });
     } else {
         db.query(
             `UPDATE users SET first = $2, last = $3, email = $4 WHERE id = $1`,
@@ -84,7 +98,7 @@ function updateDetailsDb(userId, userInfo) {
     VALUES ($1, $2, $3, $4)
     ON CONFLICT (user_id)
     DO UPDATE SET age = $2, city = $3, url = $4`,
-        [userId, userInfo.age, userInfo.city, checkUrl(userInfo.url)]
+        [userId, userInfo.age || null, userInfo.city, checkUrl(userInfo.url)]
     );
 }
 
@@ -109,10 +123,13 @@ exports.addSignature = (userId, signature) => {
 
 exports.getSignature = id => {
     console.log("Get user signature");
-    return db.query(
-        `SELECT user_id, signature FROM signatures WHERE user_id = $1`,
-        [id]
-    );
+    return db
+        .query(`SELECT user_id, signature FROM signatures WHERE user_id = $1`, [
+            id
+        ])
+        .then(signature => {
+            return signature.rows[0];
+        });
 };
 
 exports.getSigners = () => {

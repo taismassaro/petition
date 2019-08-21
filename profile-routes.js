@@ -2,12 +2,7 @@ const express = require("express");
 const router = (exports.router = express.Router());
 
 const db = require("./utils/db");
-const {
-    requireId,
-    requireNoId,
-    requireSignature,
-    requireNoSignature
-} = require("./middleware");
+const { requireId } = require("./middleware");
 
 const { hash, compare } = require("./utils/bc");
 
@@ -20,9 +15,13 @@ const blue = chalk.rgb(28, 133, 230);
 
 router.get("/profile", requireId, (req, res) => {
     console.log("Profile route");
-    res.render("profile", {
-        title: true
-    });
+    if (req.session.user) {
+        return res.redirect("/edit");
+    } else {
+        res.render("profile", {
+            title: true
+        });
+    }
 });
 
 router.post("/profile", requireId, (req, res) => {
@@ -67,13 +66,7 @@ router.post("/edit", requireId, (req, res) => {
     console.log("Edit POST request");
     console.log("Request:", req.body);
     console.log("User:", user);
-    // HASH PASSWORD
-    let password;
-    if (userInfo.password) {
-        password = hash(req.body.password).then(hash => {
-            return hash;
-        });
-    }
+
     db.updateProfile(user.userId, req.body)
         .then(() => {
             if (user.signature) {
