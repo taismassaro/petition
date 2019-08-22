@@ -1,17 +1,19 @@
-<main id="profile">
-    {{>nav}}
+<title>Make Teleportation Happen – Create Profile</title>
+
+<h1>We'd love to know a bit more about our supporters, but this is optional.</h1>
 {{#if error}}
 <div class="error">Oops! Something went wrong. Please {{error}}.</div>
 {{/if}}
 
 <form method="post">
     <label for="age">Age</label>
-  <input type="number" name="age" autocomplete="off">
+  <input type="number" name="age" autocomplete="off" placeholder="59">
   <label for="city">City</label>
-  <input type="text" name="city" autocomplete="off">
+  <input type="text" name="city" autocomplete="off" placeholder="Plutown">
   <label for="url">Your website</label>
   <input type="text" name="url" autocomplete="off" placeholder="https://teleport.com">
   {{>csrf}}
-    <button id="sign-btn" class="cat">Register</button>
+  <div>
+    <button id="sign-btn" class="cat">Sign up</button>
+</div>
 </form>
-</main>

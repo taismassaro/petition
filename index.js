@@ -9,6 +9,8 @@ const primaryRoutes = require("./primary-routes"); // login, register
 const profileRoutes = require("./profile-routes"); // profile, edit
 const petitionRoutes = require("./petition-routes"); // sign, thanks, supporters
 
+const db = require("./utils/db");
+
 const cookieSession = require("cookie-session");
 
 const csurf = require("csurf");
@@ -64,10 +66,18 @@ app.get("/", (req, res) => {
     console.log("Root route");
     console.log("User cookies:", req.session.user);
     if (req.session.user) {
-        res.render("index", {
-            user: req.session.user,
-            logged: true
-        });
+        db.getCount()
+            .then(count => {
+                console.log("Count:", count);
+                res.render("index", {
+                    user: req.session.user,
+                    logged: true,
+                    count: count.rows[0].count
+                });
+            })
+            .catch(error => {
+                console.log("ERROR", error);
+            });
     } else {
         res.render("index");
     }

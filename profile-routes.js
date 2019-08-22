@@ -4,8 +4,6 @@ const router = (exports.router = express.Router());
 const db = require("./utils/db");
 const { requireId } = require("./middleware");
 
-const { hash, compare } = require("./utils/bc");
-
 const chalk = require("chalk");
 
 const orange = chalk.rgb(237, 142, 53);
@@ -15,13 +13,13 @@ const blue = chalk.rgb(28, 133, 230);
 
 router.get("/profile", requireId, (req, res) => {
     console.log("Profile route");
-    if (req.session.user) {
-        return res.redirect("/edit");
-    } else {
-        res.render("profile", {
-            title: true
-        });
-    }
+    // if (req.session.user) {
+    //     return res.redirect("/edit");
+    // } else {
+    res.render("profile", {
+        title: true
+    });
+    // }
 });
 
 router.post("/profile", requireId, (req, res) => {

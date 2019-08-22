@@ -5,10 +5,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,700|Varela+Round&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/style.css">
-        <title>Petition</title>
     </head>
     <body>
+        <header>
+            {{>nav}}
+        </header>
+        <main>
             {{{body}}}
+        </main>
+        <footer>A petition for science to review their priorities.<br>Made with <span>&hearts;</span> by
+            <a href="https://github.com/taismassaro" target="_blank">Taís Massaro</a><br>@ SPICED Academy, 2019.
+        </footer>
     </body>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="../script.js"></script>

@@ -141,6 +141,20 @@ exports.getSigners = () => {
     );
 };
 
+exports.getSignersByCity = city => {
+    return db
+        .query(
+            `SELECT id, first, last, age, city, url FROM users
+        JOIN user_details
+        ON id = user_details.user_id
+        WHERE LOWER(city) = LOWER($1)`,
+            [city]
+        )
+        .then(signers => {
+            return signers.rows[0];
+        });
+};
+
 exports.getCount = () => {
     return db.query(`SELECT COUNT(*) FROM signatures`);
 };

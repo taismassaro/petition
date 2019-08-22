@@ -1,5 +1,7 @@
-<main id="register">
-    {{>nav}}
+<title>Make Teleportation Happen – Register</title>
+
+<h1>Sign up to show your support!</h1>
+
 {{#if error}}
 <div class="error">Oops! Something went wrong. Please fill all the fields to register.</div>
 {{/if}}
@@ -14,6 +16,7 @@
   <label for="password">Password</label>
   <input type="password" name="password" placeholder="te£ep0rt@t10n" required>
   {{>csrf}}
+  <div>
     <button id="sign-btn" class="cat">Next</button>
+</div>
 </form>
-</main>

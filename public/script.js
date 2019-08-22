@@ -5,8 +5,6 @@ const clear = $("button[name='clear']");
 const submit = $("#sign-btn");
 
 if (canvas.length) {
-    submit.prop("disabled", true);
-
     const ctx = canvas[0].getContext("2d");
     resizeCanvas();
 

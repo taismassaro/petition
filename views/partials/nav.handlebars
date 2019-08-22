@@ -1,12 +1,13 @@
+
 {{#if title}}
-<p id="header"><a href="/">make teleportation happen</a></p>
+<p id="header"><a href="/">make<br>teleportation<br>happen</a></p>
 {{/if}}
-{{#unless title}}
 <nav>
     {{#if user}}
-    Hi, <a href="/edit">{{user.first}}</a>{{#if user.signature}}{{#unless route}}&ensp;|&ensp;<a href="/supporters">Supporters</a>{{/unless}}{{/if}}&ensp;|&ensp;<a href="/logout">Logout</a>
+    <div>Hi, <a href="/edit">{{user.first}}</a></div>{{#if user.signature}}{{#unless route}}<div>&ensp;<span>|</span>&ensp;<a href="/supporters">{{count}} Supporters</a></div>{{/unless}}{{/if}}<div>&ensp;<span>|</span>&ensp;<a href="/logout">Logout</a>
+    </div>
     {{else}}
-    <a href="/login">Login</a>
+    <div class="cat-login">Already a supporter?&emsp;<a href="/login">Login</a></div>
     {{/if}}
 </nav>
-{{/unless}}
+<div class="hover">Edit your profile</div>

@@ -1,23 +1,11 @@
-<main id="supporters">
-    {{>nav}}
-    
-    <p id="header">make teleportation happen <span>supporters</span></p>
+<title>Make Teleportation Happen – Supporters</title>
+
+
+<h1>This petition is supported by {{#if signers.signersbycity}}in {{city}}{{/if}}</h1>
 {{#signers}}
 {{#if url}}
-    {{#unless @last}}
     <div><span>{{incremented @index}}</span>&emsp;<a href={{url}} target="_blank">{{first}} {{last}}</a>{{#if age}}&ensp;|&ensp;{{age}}{{/if}}{{#if city}}&ensp;|&ensp;<a href="/supporters/{{city}}">{{city}}</a>{{/if}}</div>
-    {{/unless}}
-    {{#if @last}}
-    <div><span>{{incremented @index}}</span>&emsp;<strong><a href={{url}} target="_blank">{{first}} {{last}}</a></strong>{{#if age}}&ensp;|&ensp;{{age}}{{/if}}{{#if city}}&ensp;|&ensp;<a href="/supporters/{{city}}">{{city}}</a>{{/if}}</div>
-{{/if}}
 {{else}}
-    {{#unless @last}}
-    <div><span>{{incremented @index}}</span>&emsp;{{first}} {{last}}{{#if age}}&ensp;|&ensp;{{age}}{{/if}}{{#if city}}&ensp;|&ensp;{{city}}{{/if}}</div>
-    {{/unless}}
-    {{#if @last}}
-    <div><span>{{incremented @index}}</span>&emsp;<strong>{{first}} {{last}}</strong>{{#if age}}&ensp;|&ensp;{{age}}{{/if}}{{#if city}}&ensp;|&ensp;{{city}}{{/if}}</div>
-    {{/if}}
+    <div><span>{{incremented @index}}</span>&emsp;{{first}} {{last}}{{#if age}}&ensp;|&ensp;{{age}}{{/if}}{{#if city}}&ensp;|&ensp;<a href="/supporters/{{city}}">{{city}}</a>{{/if}}</div>
 {{/if}}
 {{/signers}}
-
-</main>

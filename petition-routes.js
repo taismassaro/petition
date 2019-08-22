@@ -19,7 +19,8 @@ router.get("/sign", requireId, requireNoSignature, (req, res) => {
     let user = req.session.user;
     console.log("Signature route");
     res.render("sign", {
-        user: user
+        user: user,
+        title: true
     });
 });
 
@@ -81,6 +82,36 @@ router.get("/supporters", requireId, requireSignature, (req, res) => {
                 route: req.url,
                 user: req.session.user,
                 signers: signers.rows,
+                helpers: {
+                    incremented(index) {
+                        console.log(index);
+                        index++;
+                        if (index < 10) {
+                            return "0" + index;
+                        } else {
+                            return index;
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
+});
+
+router.get("/supporters/:city", requireId, requireSignature, (req, res) => {
+    console.log("Signatures by city page");
+    console.log("req.params:", req.params);
+    const city = req.params.city;
+    db.getSignersByCity(city)
+        .then(signersbycity => {
+            console.log("Signers:", signersbycity);
+            res.render("supporters", {
+                route: req.url,
+                user: req.session.user,
+                city: city,
+                signers: signersbycity,
                 helpers: {
                     incremented(index) {
                         console.log(index);

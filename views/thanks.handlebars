@@ -1,10 +1,8 @@
+<title>Make Teleportation Happen – Thanks for supporting!</title>
 
 <main id="thanks">
-    {{>nav}}
     <div>
-        {{#if count}}
-        <label>Signature #{{count}}</label>
-        {{/if}}
+        <label>Edit signature</label>
 
         {{#if signature}}
         <div id="signed" class="canvas">
@@ -14,6 +12,6 @@
         {{#if user}}
         <h1>Thanks for your support, {{user.first}}!</h1>
         {{/if}}
-        <p class="cat"><a href="/petition/signatures">Check out who else signed</a></p>
+        <p class="cat"><a href="/supporters">Check out who else signed</a></p>
     </div>
 </main>
