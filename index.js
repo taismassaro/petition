@@ -9,16 +9,8 @@ const primaryRoutes = require("./primary-routes"); // login, register
 const profileRoutes = require("./profile-routes"); // profile, edit
 const petitionRoutes = require("./petition-routes"); // sign, thanks, supporters
 
-const db = require("./utils/db");
-const {
-    requireId,
-    requireNoId,
-    requireSignature,
-    requireNoSignature
-} = require("./middleware");
 const cookieSession = require("cookie-session");
 
-const { hash, compare } = require("./utils/bc");
 const csurf = require("csurf");
 
 const chalk = require("chalk");
@@ -26,7 +18,7 @@ const chalk = require("chalk");
 const orange = chalk.rgb(237, 142, 53);
 const blue = chalk.rgb(28, 133, 230);
 
-const app = express();
+const app = (exports.app = express());
 
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
@@ -54,6 +46,7 @@ app.use("/favicon.ico", (req, res) => res.sendStatus(404));
 
 app.use(csurf());
 app.use(function(req, res, next) {
+    console.log(`req.session in ${req.url}`, req.session);
     res.setHeader("X-Frame-Options", "DENY");
     res.locals.csrfToken = req.csrfToken();
     next();
@@ -87,6 +80,8 @@ app.get("/logout", (req, res) => {
     res.redirect("/");
 });
 
-app.listen(process.env.PORT || 8080, () =>
-    console.log(`Express server running.`)
-);
+if (require.main === module) {
+    app.listen(process.env.PORT || 8080, () =>
+        console.log(`Express server running.`)
+    );
+}

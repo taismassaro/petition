@@ -57,7 +57,7 @@ router.get("/thanks", requireId, requireSignature, (req, res) => {
                     console.log("Count:", count);
                     res.render("thanks", {
                         user: req.session.user,
-                        signature: signature.rows[0].signature,
+                        signature: signature.signature,
                         count: count.rows[0].count
                     });
                 })

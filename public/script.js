@@ -2,8 +2,11 @@ const canvas = $("canvas");
 const canvasContainer = $(".canvas");
 const signatureInput = $("input[name='signature']");
 const clear = $("button[name='clear']");
+const submit = $("#sign-btn");
 
 if (canvas.length) {
+    submit.prop("disabled", true);
+
     const ctx = canvas[0].getContext("2d");
     resizeCanvas();
 
@@ -18,9 +21,9 @@ if (canvas.length) {
     ///// SIGNATURE EVENTS /////
 
     canvas.on("mousedown touchstart", event => {
+        event.preventDefault();
         event.stopPropagation();
         if (event.type === "touchstart") {
-            event.preventDefault();
             setPosition(event, "touch");
         } else {
             setPosition(event);
@@ -28,15 +31,15 @@ if (canvas.length) {
     });
 
     canvas.on("mousemove touchmove", event => {
+        event.preventDefault();
         if (event.type === "touchmove") {
-            event.preventDefault();
             drawLine("touch");
         } else if (event.buttons === 1) {
             drawLine();
         }
     });
 
-    canvas.on("mouseup touchend", () => {
+    $(document).on("mouseup touchend", () => {
         signature = canvas[0].toDataURL();
         signatureInput.val(signature);
     });
@@ -55,6 +58,7 @@ if (canvas.length) {
     function clearCanvas() {
         signatureInput.val(null);
         ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
+        submit.prop("disabled", true);
     }
 
     function setPosition(event, touch) {
@@ -82,5 +86,6 @@ if (canvas.length) {
         ctx.lineTo(position.x, position.y);
         ctx.stroke();
         ctx.closePath();
+        submit.prop("disabled", false);
     }
 }
