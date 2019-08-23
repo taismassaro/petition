@@ -13,8 +13,6 @@ const chalk = require("chalk");
 const orange = chalk.rgb(237, 142, 53);
 const blue = chalk.rgb(28, 133, 230);
 
-let sigCount;
-
 ///// CANVAS SIGNING /////
 
 router.get("/sign", requireId, requireNoSignature, (req, res) => {
@@ -57,12 +55,12 @@ router.get("/thanks", requireId, requireSignature, (req, res) => {
             console.log("Signature:", signature);
             db.getCount()
                 .then(count => {
-                    sigCount = count.rows[0].count;
+                    req.session.count = count;
                     console.log("Count:", count);
                     res.render("thanks", {
                         user: req.session.user,
                         signature: signature.signature,
-                        count: sigCount
+                        count: req.session.count
                     });
                 })
                 .catch(error => {
@@ -72,6 +70,32 @@ router.get("/thanks", requireId, requireSignature, (req, res) => {
         .catch(error => {
             console.log("ERROR", error);
         });
+});
+
+router.post("/thanks", requireId, (req, res) => {
+    console.log("Thanks POST request");
+    console.log("userId", req.session.user.userId);
+    console.log("req.body", req.body.btn);
+    if (req.body.btn === "edit") {
+        db.deleteSignature(req.session.user.userId)
+            .then(result => {
+                req.session.user.signature = null;
+                console.log("POST result:", result);
+                res.redirect("/sign");
+            })
+            .catch(error => {
+                console.log("ERROR", orange(error));
+            });
+    } else if (req.body.btn === "deleteUser") {
+        db.deleteProfile(req.session.user.userId)
+            .then(() => {
+                req.session.user = null;
+                res.redirect("/");
+            })
+            .catch(error => {
+                console.log("ERROR", orange(error));
+            });
+    }
 });
 
 ///// SIGNATURES /////
@@ -117,7 +141,7 @@ router.get("/supporters/:city", requireId, requireSignature, (req, res) => {
             console.log("Signers:", signersbycity);
             res.render("supporters", {
                 user: req.session.user,
-                count: sigCount,
+                count: req.session.count,
                 city: city,
                 signers: signersbycity,
                 helpers: {

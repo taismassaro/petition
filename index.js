@@ -71,11 +71,10 @@ app.get("/", (req, res) => {
         db.getCount()
             .then(count => {
                 console.log("Count:", count);
-                sigCount = count.rows[0].count;
                 res.render("index", {
                     user: req.session.user,
                     logged: true,
-                    count: sigCount
+                    count: count
                 });
             })
             .catch(error => {

@@ -313,7 +313,7 @@ button[name="sign"]:disabled {
 @media only screen and (min-width: 600px) {
     main {
         margin: 2em auto;
-        max-width: 80%;
+        /* max-width: 80%; */
     }
     #arrowdown {
         display: none;
@@ -328,7 +328,7 @@ button[name="sign"]:disabled {
 @media only screen and (min-width: 900px) {
     main {
         margin: 2em auto;
-        max-width: 80%;
+        /* max-width: 80%; */
     }
     wbr {
         display: none;

@@ -80,29 +80,17 @@ router.get("/register", requireNoId, (req, res) => {
 
 router.post("/register", requireNoId, (req, res) => {
     console.log("Register POST request");
-    hash(req.body.password)
-        .then(hash => {
-            let user = {
-                first: req.body.first,
-                last: req.body.last,
-                email: req.body.email,
-                password: hash
-            };
-            req.session.user = {
-                first: user.first
-            };
-            db.registerUser(user)
-                .then(id => {
-                    console.log("Id:", id.rows[0].id);
-                    req.session.user.userId = id.rows[0].id;
-                    console.log("SUCCESS! Redirecting...");
-                    console.log("user_id:", req.session.user.userId);
-                    res.redirect("/profile");
-                })
-                .catch(error => {
-                    console.log("ERROR:", orange(error));
-                    res.redirect("register");
-                });
+    console.log("req.body:", req.body);
+    req.session.user = {
+        first: req.body.first
+    };
+    db.registerUser(req.body)
+        .then(id => {
+            console.log("Id:", id);
+            req.session.user.userId = id;
+            console.log("SUCCESS! Redirecting...");
+            console.log("user_id:", req.session.user.userId);
+            res.redirect("/profile");
         })
         .catch(error => {
             console.log("ERROR:", orange(error));

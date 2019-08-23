@@ -1,8 +1,10 @@
 <title>Make Teleportation Happen – Thanks for supporting!</title>
 
-<main id="thanks">
     <div>
-        <label>Edit signature</label>
+        <form method="post">
+            {{>csrf}}
+        <button name="btn" value="edit">Edit signature</button><button name="btn" value="deleteUser">Delete profile</button>
+    </form>
 
         {{#if signature}}
         <div id="signed" class="canvas">
@@ -14,4 +16,3 @@
         {{/if}}
         <p class="cat"><a href="/supporters">Check out who else signed</a></p>
     </div>
-</main>

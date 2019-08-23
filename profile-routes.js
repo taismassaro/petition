@@ -48,7 +48,9 @@ router.get("/edit", requireId, (req, res) => {
         .then(userInfo => {
             console.log("userInfo:", userInfo);
             res.render("edit", {
-                user: userInfo
+                user: userInfo,
+                signature: true,
+                count: req.session.count
             });
         })
         .catch(error => {

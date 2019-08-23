@@ -16,28 +16,22 @@ const chalk = require("chalk");
 const orange = chalk.rgb(237, 142, 53);
 const blue = chalk.rgb(28, 133, 230);
 
+///// REGISTRATION /////
+
 exports.registerUser = user => {
     console.log("Registering user data.");
-    return db.query(
-        `INSERT INTO users (first, last, email, password)
-        VALUES ($1, $2, $3, $4)
-        RETURNING id`,
-        [user.first, user.last, user.email, user.password]
-    );
-};
-
-exports.getUser = userId => {
-    return db
-        .query(
-            `SELECT first, last, email, age, city, url FROM users
-        JOIN user_details
-        ON id = user_details.user_id
-        WHERE id = $1`,
-            [userId]
-        )
-        .then(userInfo => {
-            return userInfo.rows[0];
-        });
+    return hash(user.password).then(hash => {
+        return db
+            .query(
+                `INSERT INTO users (first, last, email, password)
+                VALUES ($1, $2, $3, $4)
+                RETURNING id`,
+                [user.first, user.last, user.email, hash]
+            )
+            .then(id => {
+                return id.rows[0].id;
+            });
+    });
 };
 
 exports.addProfile = (userId, userInfo) => {
@@ -58,6 +52,44 @@ function checkUrl(url) {
         }
     }
 }
+
+///// LOGIN /////
+
+exports.getPassword = email => {
+    console.log("Checking credentials.");
+    return db
+        .query(`SELECT * FROM users WHERE email = $1`, [email])
+        .then(check => {
+            return check.rows[0];
+        });
+};
+
+exports.getSignature = id => {
+    console.log("Get user signature");
+    return db
+        .query(`SELECT user_id, signature FROM signatures WHERE user_id = $1`, [
+            id
+        ])
+        .then(signature => {
+            return signature.rows[0];
+        });
+};
+
+///// EDIT PROFILE /////
+
+exports.getUser = userId => {
+    return db
+        .query(
+            `SELECT first, last, email, age, city, url FROM users
+        JOIN user_details
+        ON id = user_details.user_id
+        WHERE id = $1`,
+            [userId]
+        )
+        .then(userInfo => {
+            return userInfo.rows[0];
+        });
+};
 
 exports.updateProfile = (userId, userInfo) => {
     console.log("Updating user profile.");
@@ -102,14 +134,7 @@ function updateDetailsDb(userId, userInfo) {
     );
 }
 
-exports.getPassword = email => {
-    console.log("Checking credentials.");
-    return db
-        .query(`SELECT * FROM users WHERE email = $1`, [email])
-        .then(check => {
-            return check.rows[0];
-        });
-};
+///// SIGN /////
 
 exports.addSignature = (userId, signature) => {
     console.log("Adding user's signature.");
@@ -121,16 +146,16 @@ exports.addSignature = (userId, signature) => {
     );
 };
 
-exports.getSignature = id => {
-    console.log("Get user signature");
-    return db
-        .query(`SELECT user_id, signature FROM signatures WHERE user_id = $1`, [
-            id
-        ])
-        .then(signature => {
-            return signature.rows[0];
-        });
+exports.deleteSignature = userId => {
+    console.log("Deleting user's signature.");
+    return db.query(
+        `DELETE FROM signatures
+        WHERE user_id = $1`,
+        [userId]
+    );
 };
+
+///// SUPPORTERS /////
 
 exports.getSigners = () => {
     return db.query(
@@ -155,6 +180,38 @@ exports.getSignersByCity = city => {
         });
 };
 
+///// DELETE PROFILE /////
+exports.deleteProfile = userId => {
+    console.log("Deleting user's profile.");
+    return deleteUserDb(userId);
+};
+function deleteUserDb(userId) {
+    return db
+        .query(
+            `DELETE FROM signatures
+        WHERE user_id = $1`,
+            [userId]
+        )
+        .then(() => {
+            return db.query(
+                `DELETE FROM user_details
+        WHERE user_id = $1`,
+                [userId]
+            );
+        })
+        .then(() => {
+            return db.query(
+                `DELETE FROM users
+            WHERE id = $1`,
+                [userId]
+            );
+        });
+}
+
+///// UTIL /////
+
 exports.getCount = () => {
-    return db.query(`SELECT COUNT(*) FROM signatures`);
+    return db.query(`SELECT COUNT(*) FROM signatures`).then(count => {
+        return count.rows[0].count;
+    });
 };

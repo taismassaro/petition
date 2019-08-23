@@ -2,9 +2,7 @@
 
 <h1>Edit your profile</h1>
 
-{{#if error}}
-<div class="error">Oops! Something went wrong. Please {{error}}.</div>
-{{/if}}
+{{>error}}
 
 <form method="post">
     {{#if user}}
