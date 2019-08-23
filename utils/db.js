@@ -20,6 +20,7 @@ const blue = chalk.rgb(28, 133, 230);
 
 exports.registerUser = user => {
     console.log("Registering user data.");
+
     return hash(user.password).then(hash => {
         return db
             .query(

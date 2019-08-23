@@ -2,7 +2,7 @@ const canvas = $("canvas");
 const canvasContainer = $(".canvas");
 const signatureInput = $("input[name='signature']");
 const clear = $("button[name='clear']");
-const submit = $("#sign-btn");
+const submit = $("button[name='sign']");
 
 if (canvas.length) {
     const ctx = canvas[0].getContext("2d");
@@ -70,6 +70,7 @@ if (canvas.length) {
         }
     }
     function drawLine(touch) {
+        submit.prop("disabled", false);
         ctx.strokeStyle = "#FF5722";
         ctx.lineWidth = 2;
         ctx.lineCap = "round";
@@ -84,6 +85,5 @@ if (canvas.length) {
         ctx.lineTo(position.x, position.y);
         ctx.stroke();
         ctx.closePath();
-        submit.prop("disabled", false);
     }
 }

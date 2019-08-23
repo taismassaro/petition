@@ -81,22 +81,30 @@ router.get("/register", requireNoId, (req, res) => {
 router.post("/register", requireNoId, (req, res) => {
     console.log("Register POST request");
     console.log("req.body:", req.body);
-    req.session.user = {
-        first: req.body.first
-    };
-    db.registerUser(req.body)
-        .then(id => {
-            console.log("Id:", id);
-            req.session.user.userId = id;
-            console.log("SUCCESS! Redirecting...");
-            console.log("user_id:", req.session.user.userId);
-            res.redirect("/profile");
-        })
-        .catch(error => {
-            console.log("ERROR:", orange(error));
-            res.render("register", {
-                title: true,
-                error: error
+    if (req.body.password) {
+        db.registerUser(req.body)
+            .then(id => {
+                req.session.user = {
+                    first: req.body.first,
+                    userId: id
+                };
+                console.log("Id:", id);
+
+                console.log("SUCCESS! Redirecting...");
+                console.log("user_id:", req.session.user.userId);
+                res.redirect("/profile");
+            })
+            .catch(error => {
+                console.log("ERROR:", orange(error));
+                res.render("register", {
+                    title: true,
+                    error: error
+                });
             });
+    } else {
+        res.render("register", {
+            title: true,
+            error: "Invalid password."
         });
+    }
 });

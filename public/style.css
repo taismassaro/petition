@@ -177,6 +177,9 @@ a:visited {
     padding: 0.5em 0.6em;
     border-radius: 5px;
 }
+.cat a {
+    color: #222831;
+}
 .cat:visited {
     color: #222831;
 }
@@ -240,14 +243,19 @@ input {
     border-radius: 5px;
     display: block;
 }
+.sig-container {
+    width: 60%;
+    margin: 0 auto;
+}
 canvas {
     background: #eeeeee;
     cursor: url("pen-solid.svg") 0 14, auto;
 }
 .canvas {
+    margin: 0 auto;
     margin-top: 0.5em;
     width: 100%;
-    height: 6em;
+    height: 8em;
     /* cursor: pointer; */
 }
 .canvas-btn {
@@ -276,11 +284,16 @@ button {
     border-radius: 5px;
     font-size: 2em;
 } */
-button[name="clear"] {
+button[name="clear"],
+button[name="btn"] {
     padding: 0;
-    margin-top: 0.3em;
+    margin-top: 0.2em;
     color: #eeeeee;
     font-size: 1em;
+    background: none;
+}
+button[name="sign"] {
+    margin-top: 0;
 }
 button[name="sign"]:disabled {
     opacity: 0.4;
@@ -300,7 +313,7 @@ button[name="sign"]:disabled {
     background: #eee;
     color: #2d4059;
     border-radius: 5px;
-    font-size: 0.8em !important;
+    /* font-size: 0.8em; */
     padding: 0.2em 0.4em;
     /* margin-top: 0.5em; */
     display: inline-block;

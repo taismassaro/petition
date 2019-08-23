@@ -1,10 +1,9 @@
 <title>Make Teleportation Happen – Sign the petition to support</title>
 
-<main id="sign">
 {{#if error}}
 <div class="error">Oops! Something went wrong. Please make sure you signed.</div>
 {{/if}}
-
+<div class="sig-container">
 <form method="post">
   <label for="signature">Signature</label>
   <input type="hidden" name="signature">
@@ -14,7 +13,7 @@
   </div>
   <div class="canvas-btn">
     <button type="button" name="clear" class="cat">Clear</button>
-    <button id="sign-btn" name="sign" class="cat" disabled>Sign</button>
+    <button name="sign" class="cat" disabled>Sign</button>
   </div>
 </form>
-</main>
+</div>

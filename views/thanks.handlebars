@@ -1,18 +1,19 @@
 <title>Make Teleportation Happen – Thanks for supporting!</title>
 
-    <div>
+    <div class="sig-container">
+
         <form method="post">
             {{>csrf}}
-        <button name="btn" value="edit">Edit signature</button><button name="btn" value="deleteUser">Delete profile</button>
+        <div class="canvas-btn"><button name="btn" class="cat" value="edit">Edit signature</button><button name="btn" class="cat" value="deleteUser">Delete profile</button></div>
     </form>
-
         {{#if signature}}
         <div id="signed" class="canvas">
             <img src="{{signature}}">
         </div>
         {{/if}}
+
         {{#if user}}
         <h1>Thanks for your support, {{user.first}}!</h1>
         {{/if}}
-        <p class="cat"><a href="/supporters">Check out who else signed</a></p>
+        <a href="/supporters">Check out who else signed</a>
     </div>
