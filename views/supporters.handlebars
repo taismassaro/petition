@@ -1,10 +1,10 @@
 <title>Make Teleportation Happen – Supporters</title>
 
 
-<h1>This petition is supported by {{#if signers.signersbycity}}in {{city}}{{/if}}</h1>
+<h1>This petition is supported by {{#if city}}in {{city}}{{/if}}</h1>
 {{#signers}}
 {{#if url}}
-    <div><span>{{incremented @index}}</span>&emsp;<a href={{url}} target="_blank">{{first}} {{last}}</a>{{#if age}}&ensp;|&ensp;{{age}}{{/if}}{{#if city}}&ensp;|&ensp;<a href="/supporters/{{city}}">{{city}}</a>{{/if}}</div>
+    <div><span>{{#if @index}}{{incremented @index}}{{else}}01{{/if}}</span>&emsp;<a href={{url}} target="_blank">{{first}} {{last}}</a>{{#if age}}&ensp;|&ensp;{{age}}{{/if}}{{#if city}}{{#if showcity}}&ensp;|&ensp;<a href="/supporters/{{city}}">{{city}}</a>{{/if}}{{/if}}</div>
 {{else}}
     <div><span>{{incremented @index}}</span>&emsp;{{first}} {{last}}{{#if age}}&ensp;|&ensp;{{age}}{{/if}}{{#if city}}&ensp;|&ensp;<a href="/supporters/{{city}}">{{city}}</a>{{/if}}</div>
 {{/if}}

@@ -13,6 +13,8 @@ const chalk = require("chalk");
 const orange = chalk.rgb(237, 142, 53);
 const blue = chalk.rgb(28, 133, 230);
 
+let sigCount;
+
 ///// CANVAS SIGNING /////
 
 router.get("/sign", requireId, requireNoSignature, (req, res) => {
@@ -55,11 +57,12 @@ router.get("/thanks", requireId, requireSignature, (req, res) => {
             console.log("Signature:", signature);
             db.getCount()
                 .then(count => {
+                    sigCount = count.rows[0].count;
                     console.log("Count:", count);
                     res.render("thanks", {
                         user: req.session.user,
                         signature: signature.signature,
-                        count: count.rows[0].count
+                        count: sigCount
                     });
                 })
                 .catch(error => {
@@ -80,16 +83,21 @@ router.get("/supporters", requireId, requireSignature, (req, res) => {
             console.log("Signers:", signers.rows);
             res.render("supporters", {
                 route: req.url,
+                showcity: true,
                 user: req.session.user,
                 signers: signers.rows,
                 helpers: {
                     incremented(index) {
-                        console.log(index);
-                        index++;
-                        if (index < 10) {
-                            return "0" + index;
+                        if (index !== undefined) {
+                            console.log("index:", index);
+                            index++;
+                            if (index < 10) {
+                                return "0" + index;
+                            } else {
+                                return index;
+                            }
                         } else {
-                            return index;
+                            return "01";
                         }
                     }
                 }
@@ -108,18 +116,22 @@ router.get("/supporters/:city", requireId, requireSignature, (req, res) => {
         .then(signersbycity => {
             console.log("Signers:", signersbycity);
             res.render("supporters", {
-                route: req.url,
                 user: req.session.user,
+                count: sigCount,
                 city: city,
                 signers: signersbycity,
                 helpers: {
                     incremented(index) {
-                        console.log(index);
-                        index++;
-                        if (index < 10) {
-                            return "0" + index;
+                        if (index !== undefined) {
+                            console.log("index:", index);
+                            index++;
+                            if (index < 10) {
+                                return "0" + index;
+                            } else {
+                                return index;
+                            }
                         } else {
-                            return index;
+                            return "01";
                         }
                     }
                 }

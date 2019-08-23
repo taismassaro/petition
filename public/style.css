@@ -10,8 +10,7 @@ body {
     font-weight: 300;
     color: #eeeeee;
     width: 100vw;
-    overflow: auto;
-    min-height: 100%;
+    min-height: 100vh;
     padding: 0;
     position: relative;
     /* display: flex; */
@@ -61,19 +60,13 @@ form div {
     /* display: flex;
     justify-content: flex-end; */
 }
-/* PHONE ONLY @media (max-width: 599px) */
 
-/* TABLET PORTRAIT @media (min-width: 600px) */
-
-/* TABLET LANDSCAPE @media (min-width: 900px) */
-
-/* DESKTOP @media (min-width: 1200px) */
 header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 0.5em 10%;
-    margin: 1em 0;
+    padding: 1em 10%;
+    /* margin: 1em 0; */
     position: relative;
 }
 .hover {
@@ -313,8 +306,11 @@ button[name="sign"]:disabled {
     display: inline-block;
 }
 /* MEDIA QUERIES */
-
-@media only screen and (min-width: 640px) {
+/* PHONE ONLY @media (max-width: 599px) */
+@media only screen and (max-width: 599px) {
+}
+/* TABLET PORTRAIT @media (min-width: 600px) */
+@media only screen and (min-width: 600px) {
     main {
         margin: 2em auto;
         max-width: 80%;
@@ -327,7 +323,9 @@ button[name="sign"]:disabled {
         height: auto;
     }
 }
-@media only screen and (min-width: 800px) {
+
+/* TABLET LANDSCAPE @media (min-width: 900px) */
+@media only screen and (min-width: 900px) {
     main {
         margin: 2em auto;
         max-width: 80%;
@@ -343,10 +341,12 @@ button[name="sign"]:disabled {
         height: auto;
     }
 }
-@media only screen and (min-width: 1000px) {
+/* DESKTOP @media (min-width: 1200px) */
+
+@media only screen and (min-width: 1200px) {
     main {
         margin: 2em auto;
-        max-width: 40em;
+        /* max-width: 40em; */
         height: auto;
     }
     wbr {

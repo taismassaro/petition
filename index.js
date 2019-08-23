@@ -25,6 +25,8 @@ const app = (exports.app = express());
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
+let sigCount;
+
 ///// MIDDLEWARE /////
 
 app.use(
@@ -69,10 +71,11 @@ app.get("/", (req, res) => {
         db.getCount()
             .then(count => {
                 console.log("Count:", count);
+                sigCount = count.rows[0].count;
                 res.render("index", {
                     user: req.session.user,
                     logged: true,
-                    count: count.rows[0].count
+                    count: sigCount
                 });
             })
             .catch(error => {
@@ -87,6 +90,10 @@ app.get("/", (req, res) => {
 app.get("/logout", (req, res) => {
     console.log("Root route");
     req.session.user = null;
+    res.redirect("/");
+});
+
+app.get("*", (req, res) => {
     res.redirect("/");
 });
 
