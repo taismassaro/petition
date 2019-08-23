@@ -4,7 +4,7 @@
 {{/if}}
 <nav>
     {{#if user}}
-    <div>Hi, <strong><a href="/sign">{{user.first}}</a></strong></div>{{#if signature}}{{#unless route}}<div>&ensp;<span>|</span>&ensp;<a href="/supporters">{{count}} Supporters</a></div>{{/unless}}{{/if}}<div>&ensp;<span>|</span>&ensp;<a href="/edit">Edit your profile</a></div><div>&ensp;<span>|</span>&ensp;<a href="/logout">Logout</a>
+    <div>Hi, <strong><a href="/sign">{{user.first}}</a></strong></div>{{#unless route}}{{#if signature}}<div>&ensp;<span>|</span>&ensp;<a href="/supporters">{{count}} Supporters</a></div>{{/if}}{{/unless}}<div>&ensp;<span>|</span>&ensp;<a href="/edit">Edit your profile</a></div><div>&ensp;<span>|</span>&ensp;<a href="/logout">Logout</a>
     </div>
     {{else}}
     <div class="cat-login">Already a supporter?&emsp;<a href="/login">Login</a></div>
