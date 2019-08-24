@@ -1,21 +1,29 @@
+:root {
+    --phone: 599px;
+    --tablet-portrait: 600px;
+    --tablet-landscape: 900px;
+    --desktop: 1200px;
+    --darkgray: #222831;
+    --blue: #2d4059;
+    --white: #eee;
+    --orange: #ff5722;
+    --font: ;
+}
+
 /* PHONE UP */
 * {
     box-sizing: border-box;
 }
 body {
-    margin: 0;
-    background: #222831;
+    background: var(--darkgray);
     font-family: "Poppins", sans-serif;
     font-size: 20px;
     font-weight: 300;
-    color: #eeeeee;
+    color: var(--white);
     width: 100vw;
     min-height: 100vh;
     padding: 0;
     position: relative;
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* align-items: center; */
 }
 nav {
     width: 100%;
@@ -34,31 +42,29 @@ nav span {
 }
 main {
     padding: 1em 10%;
-    padding-bottom: 8em;
+    padding-bottom: 6em;
 }
 footer {
     position: absolute;
     width: 100%;
-    /* height: 6em; */
     bottom: 0;
     margin-top: 3em;
     padding: 2em 0;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--white);
     font-size: 0.6em;
+    line-height: 1.6;
     text-align: center;
     opacity: 0.4;
 }
 footer a {
-    color: #eee;
+    color: var(--white);
 }
 footer a:visited {
-    color: #eee;
+    color: var(--white);
 }
 
 form div {
     text-align: right;
-    /* display: flex;
-    justify-content: flex-end; */
 }
 
 header {
@@ -76,7 +82,7 @@ header {
     font-size: 0.6em;
 }
 #header {
-    color: #ff5722;
+    color: var(--orange);
     font-weight: 700;
     font-size: 1.4em;
     line-height: 1.1;
@@ -85,7 +91,7 @@ header {
     /* margin-bottom: 1em; */
 }
 #header span {
-    color: #eeeeee;
+    color: var(--white);
     font-weight: 300;
     opacity: 1;
 }
@@ -100,7 +106,6 @@ header {
     -moz-font-feature-settings: "tnum"; */
 }
 .monospace {
-    /* color: #ff5722; */
     opacity: 0.4;
 
     font-family: "Varela Round", sans-serif;
@@ -108,19 +113,7 @@ header {
     -webkit-font-feature-settings: "tnum";
     -moz-font-feature-settings: "tnum";
 }
-/* #title,
-#text,
-main {
-    height: 100vh;
-    padding: 1.2em 1.2em;
-}
-#title div {
-    width: 100%;
-    text-align: center;
-    font-size: 2.4em;
-    color: #ff5722;
-    margin-top: 0.5em;
-} */
+
 h1 {
     margin: 0;
     margin-bottom: 1em;
@@ -138,22 +131,25 @@ h1 span {
     letter-spacing: 0.035em;
     text-transform: uppercase;
     overflow-wrap: break-word;
-    color: #ff5722;
+    color: var(--orange);
 }
 
 p {
     margin: 0;
     font-size: 1.1em;
-    line-height: 1.4;
+    line-height: 1.6;
 }
 p span {
     opacity: 0.6;
+}
+p:last-of-type {
+    margin-bottom: 2em;
 }
 a {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    color: #ff5722;
+    color: var(--orange);
     font-weight: 700;
     text-decoration: none;
 }
@@ -161,11 +157,11 @@ a:visited {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    color: #ff5722;
+    color: var(--orange);
 }
 .cat {
-    background: #ff5722;
-    color: #222831;
+    background: var(--orange);
+    color: var(--darkgray);
     font-weight: 700;
     /* margin-top: 1em; */
     cursor: pointer;
@@ -179,10 +175,10 @@ a:visited {
     border-radius: 5px;
 }
 .cat a {
-    color: #222831;
+    color: var(--darkgray);
 }
 .cat:visited {
-    color: #222831;
+    color: var(--darkgray);
 }
 .cat-login {
     margin-top: 0.5em;
@@ -192,8 +188,8 @@ a:visited {
     display: flex;
 }
 .cat-btn {
-    background: #eee;
-    color: #ff5722;
+    background: var(--white);
+    color: var(--orange);
     font-weight: 700;
     margin-top: 1em;
     display: inline-block;
@@ -205,7 +201,7 @@ a:visited {
     border-radius: 5px;
 }
 .error {
-    background: #ff5722;
+    background: var(--orange);
     border-radius: 5px;
     font-size: 0.8em;
     padding: 0.6em 0.8em;
@@ -223,9 +219,9 @@ label {
 input {
     width: 100%;
     border: 0;
-    border-bottom: 2px solid #eeeeee;
-    background: #222831;
-    color: #ff5722;
+    border-bottom: 2px solid var(--white);
+    background: var(--darkgray);
+    color: var(--orange);
     font-family: "Poppins", sans-serif;
     font-size: 1.5em;
     font-weight: 300;
@@ -236,7 +232,7 @@ input {
     margin-bottom: 0.5em;
 }
 [placeholder]::-webkit-input-placeholder {
-    color: #eeeeee;
+    color: var(--white);
     opacity: 0.1;
 }
 #signature,
@@ -249,7 +245,7 @@ input {
     margin: 0 auto;
 }
 canvas {
-    background: #eeeeee;
+    background: var(--white);
     cursor: url("pen-solid.svg") 0 14, auto;
 }
 .canvas {
@@ -269,27 +265,14 @@ button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: #222831;
+    background: var(--darkgray);
     border: 0;
 }
-/* #sign-btn {
-    background: #eee;
-    color: #ff5722;
-    font-weight: 700;
-    margin-top: 1em;
-    display: inline-block;
-    line-height: 1.1;
-    letter-spacing: 0.035em;
-    text-transform: uppercase;
-    padding: 0.4em 0.6em;
-    border-radius: 5px;
-    font-size: 2em;
-} */
 button[name="clear"],
 button[name="btn"] {
     padding: 0;
     margin-top: 0.2em;
-    color: #eeeeee;
+    color: var(--white);
     font-size: 1em;
     background: none;
 }
@@ -301,7 +284,7 @@ button[name="sign"]:disabled {
     cursor: auto;
 }
 #signed {
-    background: #2d4059;
+    background: var(--blue);
     overflow: hidden;
     text-align: center;
     margin-bottom: 1em;
@@ -311,8 +294,8 @@ button[name="sign"]:disabled {
     letter-spacing: 0.05em;
 }
 .identifier {
-    background: #eee;
-    color: #2d4059;
+    background: var(--white);
+    color: var(--blue);
     border-radius: 5px;
     /* font-size: 0.8em; */
     padding: 0.2em 0.4em;
@@ -326,7 +309,7 @@ button[name="sign"]:disabled {
 /* TABLET PORTRAIT @media (min-width: 600px) */
 @media only screen and (min-width: 600px) {
     main {
-        margin: 2em auto;
+        /* margin: 2em auto; */
         /* max-width: 80%; */
     }
     #arrowdown {
@@ -341,11 +324,18 @@ button[name="sign"]:disabled {
 /* TABLET LANDSCAPE @media (min-width: 900px) */
 @media only screen and (min-width: 900px) {
     main {
-        margin: 2em auto;
+        /* margin: 2em auto; */
         /* max-width: 80%; */
+    }
+    h1,
+    p {
+        max-width: 80%;
     }
     wbr {
         display: none;
+    }
+    nav {
+        font-size: 1em;
     }
     #arrowdown {
         display: none;
@@ -359,8 +349,7 @@ button[name="sign"]:disabled {
 
 @media only screen and (min-width: 1200px) {
     main {
-        margin: 4em auto;
-        /* max-width: 40em; */
+        /* margin: 2em auto; */
         height: auto;
     }
     wbr {
@@ -371,17 +360,16 @@ button[name="sign"]:disabled {
     }
     h1 {
         line-height: 1.2;
-        max-width: auto;
+        max-width: 60%;
     }
     p {
-        max-width: 75%;
-        line-height: 1.6;
+        max-width: 60%;
     }
-    #title,
-    #text {
-        width: 100%;
-        height: auto;
+
+    header {
+        margin-top: 2em;
     }
+
     a {
         transition: all 0.6s;
     }
@@ -389,18 +377,17 @@ button[name="sign"]:disabled {
         text-decoration: underline;
     }
     .cat:hover {
-        /* color: #eee; */
         opacity: 0.6;
         text-decoration: none;
     }
-    #header {
-        max-width: 100%;
-        font-size: 2.2em;
-    }
+
     .canvas-btn {
         margin-top: 1em;
     }
     label {
         margin-top: 2em;
+    }
+    footer {
+        /* height: 6em; */
     }
 }

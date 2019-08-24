@@ -129,6 +129,7 @@ router.get("/supporters/:city", requireId, requireSignature, (req, res) => {
             console.log("Signers:", signersbycity);
             res.render("supporters", {
                 user: req.session.user,
+                signature: true,
                 count: req.session.count,
                 city: city,
                 signers: signersbycity,

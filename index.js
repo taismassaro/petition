@@ -25,8 +25,6 @@ const app = (exports.app = express());
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
-let sigCount;
-
 ///// MIDDLEWARE /////
 
 app.use(
@@ -74,6 +72,7 @@ app.get("/", (req, res) => {
                 res.render("index", {
                     user: req.session.user,
                     logged: true,
+                    signature: true,
                     title: true,
                     count: count
                 });
