@@ -37,12 +37,22 @@ exports.registerUser = user => {
 
 exports.addProfile = (userId, userInfo) => {
     console.log("Adding user profile.");
+    console.log("City:", onlyLetters(userInfo.city));
     return db.query(
         `INSERT INTO user_details (user_id, age, city, url)
         VALUES ($1, $2, $3, $4)`,
-        [userId, userInfo.age || null, userInfo.city, checkUrl(userInfo.url)]
+        [
+            userId,
+            userInfo.age || null,
+            onlyLetters(userInfo.city),
+            checkUrl(userInfo.url)
+        ]
     );
 };
+
+function onlyLetters(str) {
+    return str.replace(/[^a-zA-Z]/, "");
+}
 
 function checkUrl(url) {
     if (url !== "") {
@@ -131,7 +141,12 @@ function updateDetailsDb(userId, userInfo) {
     VALUES ($1, $2, $3, $4)
     ON CONFLICT (user_id)
     DO UPDATE SET age = $2, city = $3, url = $4`,
-        [userId, userInfo.age || null, userInfo.city, checkUrl(userInfo.url)]
+        [
+            userId,
+            userInfo.age || null,
+            onlyLetters(userInfo.city),
+            checkUrl(userInfo.url)
+        ]
     );
 }
 

@@ -51,7 +51,7 @@ router.get("/thanks", requireId, requireSignature, (req, res) => {
     console.log("Thanks page");
     db.getSignature(req.session.user.userId)
         .then(signature => {
-            console.log("Signature:", signature);
+            // console.log("Signature:", signature);
             db.getCount()
                 .then(count => {
                     req.session.count = count;

@@ -99,8 +99,9 @@ header {
     -webkit-font-feature-settings: "tnum";
     -moz-font-feature-settings: "tnum"; */
 }
-#supporters div span {
-    color: #ff5722;
+.monospace {
+    /* color: #ff5722; */
+    opacity: 0.4;
 
     font-family: "Varela Round", sans-serif;
     font-feature-settings: "tnum";
