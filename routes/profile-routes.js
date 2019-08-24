@@ -1,8 +1,8 @@
 const express = require("express");
 const router = (exports.router = express.Router());
 
-const db = require("./utils/db");
-const { requireId } = require("./middleware");
+const db = require("../utils/db");
+const { requireId } = require("../utils/middleware");
 
 const chalk = require("chalk");
 

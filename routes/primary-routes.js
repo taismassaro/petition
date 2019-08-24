@@ -1,10 +1,10 @@
 const express = require("express");
 const router = (exports.router = express.Router());
 
-const db = require("./utils/db");
-const { requireNoId } = require("./middleware");
+const db = require("../utils/db");
+const { requireNoId } = require("../utils/middleware");
 
-const { hash, compare } = require("./utils/bc");
+const { hash, compare } = require("../utils/bc");
 
 const chalk = require("chalk");
 
@@ -16,6 +16,7 @@ const blue = chalk.rgb(28, 133, 230);
 router.get("/login", requireNoId, (req, res) => {
     console.log("Login route");
     res.render("login", {
+        login: true,
         title: true
     });
 });
@@ -44,6 +45,7 @@ router.post("/login", requireNoId, (req, res) => {
                         .catch(error => {
                             console.log("ERROR:", orange(error));
                             res.render("login", {
+                                login: true,
                                 title: true,
                                 error: "Something went wrong. Please try again."
                             });
@@ -53,6 +55,7 @@ router.post("/login", requireNoId, (req, res) => {
                 } else {
                     console.log(orange("Wrong credentials"));
                     res.render("login", {
+                        login: true,
                         title: true,
                         error: "Incorrect password. Please try again."
                     });
@@ -62,6 +65,7 @@ router.post("/login", requireNoId, (req, res) => {
         .catch(error => {
             console.log("ERROR:", orange(error));
             res.render("login", {
+                login: true,
                 title: true,
                 error:
                     "This email is not registered yet. Please sign up to show your support."

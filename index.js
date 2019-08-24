@@ -4,10 +4,10 @@ const express = require("express");
 const hb = require("express-handlebars");
 
 // do not require id
-const primaryRoutes = require("./primary-routes"); // login, register
+const primaryRoutes = require("./routes/primary-routes"); // login, register
 // require id
-const profileRoutes = require("./profile-routes"); // profile, edit
-const petitionRoutes = require("./petition-routes"); // sign, thanks, supporters
+const profileRoutes = require("./routes/profile-routes"); // profile, edit
+const petitionRoutes = require("./routes/petition-routes"); // sign, thanks, supporters
 
 const db = require("./utils/db");
 

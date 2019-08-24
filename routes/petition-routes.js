@@ -1,12 +1,12 @@
 const express = require("express");
 const router = (exports.router = express.Router());
 
-const db = require("./utils/db");
+const db = require("../utils/db");
 const {
     requireId,
     requireSignature,
     requireNoSignature
-} = require("./middleware");
+} = require("../utils/middleware");
 
 const chalk = require("chalk");
 
@@ -104,12 +104,12 @@ router.get("/supporters", requireId, requireSignature, (req, res) => {
     console.log("Signatures page");
     db.getSigners()
         .then(signers => {
-            console.log("Signers:", signers.rows);
+            console.log("Signers:", signers);
             res.render("supporters", {
                 route: req.url,
                 showcity: true,
                 user: req.session.user,
-                signers: signers.rows,
+                signers: signers,
                 helpers: {
                     incremented(index) {
                         if (index !== undefined) {

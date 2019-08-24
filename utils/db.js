@@ -159,12 +159,16 @@ exports.deleteSignature = userId => {
 ///// SUPPORTERS /////
 
 exports.getSigners = () => {
-    return db.query(
-        `SELECT id, first, last, age, city, url FROM users
+    return db
+        .query(
+            `SELECT id, first, last, age, city, url FROM users
         JOIN user_details
         ON id = user_details.user_id
         WHERE user_details.user_id IN (SELECT user_id FROM signatures WHERE signatures.user_id = user_details.user_id)`
-    );
+        )
+        .then(signers => {
+            return signers.rows;
+        });
 };
 
 exports.getSignersByCity = city => {
@@ -177,7 +181,7 @@ exports.getSignersByCity = city => {
             [city]
         )
         .then(signers => {
-            return signers.rows[0];
+            return signers.rows;
         });
 };
 
