@@ -74,6 +74,7 @@ app.get("/", (req, res) => {
                 res.render("index", {
                     user: req.session.user,
                     logged: true,
+                    title: true,
                     count: count
                 });
             })
@@ -81,7 +82,9 @@ app.get("/", (req, res) => {
                 console.log("ERROR", error);
             });
     } else {
-        res.render("index");
+        res.render("index", {
+            title: true
+        });
     }
 });
 

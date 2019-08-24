@@ -19,8 +19,7 @@ router.get("/sign", requireId, requireNoSignature, (req, res) => {
     let user = req.session.user;
     console.log("Signature route");
     res.render("sign", {
-        user: user,
-        title: true
+        user: user
     });
 });
 

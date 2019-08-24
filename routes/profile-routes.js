@@ -13,13 +13,11 @@ const blue = chalk.rgb(28, 133, 230);
 
 router.get("/profile", requireId, (req, res) => {
     console.log("Profile route");
-    // if (req.session.user) {
-    //     return res.redirect("/edit");
-    // } else {
-    res.render("profile", {
-        title: true
-    });
-    // }
+    if (req.session.user.logged) {
+        res.redirect("/edit");
+    } else {
+        res.render("profile");
+    }
 });
 
 router.post("/profile", requireId, (req, res) => {
@@ -28,6 +26,7 @@ router.post("/profile", requireId, (req, res) => {
     console.log("Request:", req.body);
     db.addProfile(user.userId, req.body)
         .then(() => {
+            req.session.user.logged = true;
             res.redirect("/sign");
         })
         .catch(error => {
