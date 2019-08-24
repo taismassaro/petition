@@ -75,26 +75,15 @@ router.post("/thanks", requireId, (req, res) => {
     console.log("Thanks POST request");
     console.log("userId", req.session.user.userId);
     console.log("req.body", req.body.btn);
-    if (req.body.btn === "edit") {
-        db.deleteSignature(req.session.user.userId)
-            .then(result => {
-                req.session.user.signature = null;
-                console.log("POST result:", result);
-                res.redirect("/sign");
-            })
-            .catch(error => {
-                console.log("ERROR", orange(error));
-            });
-    } else if (req.body.btn === "deleteUser") {
-        db.deleteProfile(req.session.user.userId)
-            .then(() => {
-                req.session.user = null;
-                res.redirect("/");
-            })
-            .catch(error => {
-                console.log("ERROR", orange(error));
-            });
-    }
+    db.deleteSignature(req.session.user.userId)
+        .then(result => {
+            req.session.user.signature = null;
+            console.log("POST result:", result);
+            res.redirect("/sign");
+        })
+        .catch(error => {
+            console.log("ERROR", orange(error));
+        });
 });
 
 ///// SIGNATURES /////

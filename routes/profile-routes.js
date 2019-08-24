@@ -65,20 +65,43 @@ router.post("/edit", requireId, (req, res) => {
     console.log("Edit POST request");
     console.log("Request:", req.body);
     console.log("User:", user);
-
-    db.updateProfile(user.userId, req.body)
-        .then(() => {
-            if (user.signature) {
-                res.redirect("/thanks");
-            } else {
-                res.redirect("/sign");
-            }
-        })
-        .catch(error => {
-            console.log("ERROR:", orange(error));
-            res.render("edit", {
-                user: req.session.user,
-                error: "try again"
+    if (req.body.btn === "update") {
+        db.updateProfile(user.userId, req.body)
+            .then(() => {
+                if (user.signature) {
+                    res.redirect("/thanks");
+                } else {
+                    res.redirect("/sign");
+                }
+            })
+            .catch(error => {
+                console.log("ERROR:", orange(error));
+                res.render("edit", {
+                    user: req.session.user,
+                    error: "try again"
+                });
             });
+    } else if (req.body.btn === "delete") {
+        res.render("edit", {
+            user: req.session.user,
+            warning: true,
+            error: "try again"
         });
+    } else if (req.body.btn === "yes") {
+        res.redirect("/sad");
+    } else if (req.body.btn === "no") {
+        res.redirect("/edit");
+    }
+});
+router.get("/sad", requireId, (req, res) => {
+    setTimeout(() => {
+        db.deleteProfile(req.session.user.userId)
+            .then(() => {
+                req.session.user = null;
+                res.redirect("/");
+            })
+            .catch(error => {
+                console.log("ERROR", orange(error));
+            });
+    }, 1000);
 });

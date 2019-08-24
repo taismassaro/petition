@@ -1,9 +1,15 @@
 <title>Make Teleportation Happen – Edit Profile</title>
 
+{{#if warning}}
+<h1>Are you sure you want to delete your profile and no longer support this cause? :(</h1>
+<form method="post">
+{{>csrf}}
+<div class="canvas-btn">
+  <button name="btn" class="cat" value="yes">Yes</button><button name="btn" class="cat" value="no">No</button>
+</form>
+{{else}}
 <h1>Edit your profile</h1>
-
 {{>error}}
-
 <form method="post">
     {{#if user}}
   <label for="first">First Name</label>
@@ -22,5 +28,8 @@
 <input type="text" name="url" autocomplete="off" placeholder="https://teleport.com" value="{{user.url}}">
 {{/if}}
   {{>csrf}}
-    <button id="sign-btn" class="cat">Update profile</button>
+  <div class="canvas-btn">
+    <button name="btn" class="cat" value="delete">Delete profile</button><button name="btn" class="cat" value="update">Update profile</button>
+</div>
 </form>
+{{/if}}
