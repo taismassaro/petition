@@ -1,0 +1,13 @@
+<title>Make Teleportation Happen – Sad to see you go!</title>
+
+{{#if sad}}
+<h1><br>We're sad to see you go... <i class="fas fa-heart-broken"></i></h1>
+{{else}}
+<h1>Are you sure you want to delete your profile and no longer support this cause?</i></h1>
+<form method="post">
+{{>csrf}}
+<div class="canvas-btn">
+  <button name="btn" class="cat" value="yes"><i class="fas fa-heart-broken"></i> Yes</button><button name="btn" class="cat" value="no"><i class="fas fa-heart"></i> No, keep me in</button>
+</form>
+{{/if}}
+{{#if redirect}}{{{redirect}}}{{/if}}

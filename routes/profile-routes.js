@@ -16,7 +16,9 @@ router.get("/profile", requireId, (req, res) => {
     if (req.session.user.logged) {
         res.redirect("/edit");
     } else {
-        res.render("profile");
+        res.render("profile", {
+            nonav: true
+        });
     }
 });
 
@@ -82,26 +84,30 @@ router.post("/edit", requireId, (req, res) => {
                 });
             });
     } else if (req.body.btn === "delete") {
-        res.render("edit", {
-            user: req.session.user,
-            warning: true,
-            error: "try again"
-        });
-    } else if (req.body.btn === "yes") {
-        res.redirect("/sad");
-    } else if (req.body.btn === "no") {
-        res.redirect("/edit");
+        res.redirect("/delete");
     }
 });
-router.get("/sad", requireId, (req, res) => {
-    setTimeout(() => {
+router.get("/delete", requireId, (req, res) => {
+    res.render("delete", {
+        user: req.session.user
+    });
+});
+
+router.post("/delete", requireId, (req, res) => {
+    if (req.body.btn === "yes") {
         db.deleteProfile(req.session.user.userId)
             .then(() => {
                 req.session.user = null;
-                res.redirect("/");
+                res.render("delete", {
+                    user: req.session.user,
+                    sad: true,
+                    redirect: "<meta http-equiv='refresh' content='1;url=/'>"
+                });
             })
             .catch(error => {
                 console.log("ERROR", orange(error));
             });
-    }, 1000);
+    } else if (req.body.btn === "no") {
+        res.redirect("/edit");
+    }
 });

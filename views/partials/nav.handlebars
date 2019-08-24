@@ -18,7 +18,9 @@
     {{#if login}}
     <div class="cat-login">Not a supporter yet?&emsp;<a href="/register">Sign up</a></div>
     {{else}}
+    {{#unless nonav}}
     <div class="cat-login">Already a supporter?&emsp;<a href="/login">Login</a></div>
+    {{/unless}}
     {{/if}}
     {{/if}}
 </nav>

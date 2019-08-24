@@ -15,6 +15,9 @@ const blue = chalk.rgb(28, 133, 230);
 
 router.get("/login", requireNoId, (req, res) => {
     console.log("Login route");
+    if (req.session.user) {
+        req.session.user = null;
+    }
     res.render("login", {
         login: true
     });
