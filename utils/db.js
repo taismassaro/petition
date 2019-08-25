@@ -179,7 +179,7 @@ exports.getSigners = () => {
             `SELECT id, first, last, age, city, url FROM users
         JOIN user_details
         ON id = user_details.user_id
-        WHERE user_details.user_id IN (SELECT user_id FROM signatures WHERE signatures.user_id = user_details.user_id)`
+        WHERE id IN (SELECT user_id FROM signatures WHERE signatures.user_id = id)`
         )
         .then(signers => {
             return signers.rows;

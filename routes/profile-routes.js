@@ -43,23 +43,28 @@ router.post("/profile", requireId, (req, res) => {
 
 router.get("/edit", requireId, (req, res) => {
     console.log("Edit route");
-    console.log("User cookie:", req.session.user);
-    let user = req.session.user;
-    db.getUser(user.userId)
-        .then(userInfo => {
-            console.log("userInfo:", userInfo);
-            res.render("edit", {
-                user: userInfo,
-                signature: true,
-                count: req.session.count
+
+    if (!req.session.user.logged) {
+        res.redirect("/profile");
+    } else {
+        console.log("User cookie:", req.session.user);
+        let user = req.session.user;
+        db.getUser(user.userId)
+            .then(userInfo => {
+                console.log("userInfo:", userInfo);
+                res.render("edit", {
+                    user: userInfo,
+                    signature: true,
+                    count: req.session.count
+                });
+            })
+            .catch(error => {
+                console.log("ERROR:", orange(error));
+                res.render("edit", {
+                    error: "try again"
+                });
             });
-        })
-        .catch(error => {
-            console.log("ERROR:", orange(error));
-            res.render("edit", {
-                error: "try again"
-            });
-        });
+    }
 });
 
 router.post("/edit", requireId, (req, res) => {
