@@ -1,5 +1,13 @@
 {{#if error}}
-<div class="error">Oops! Something went wrong. Please {{error}}.</div>
+{{#if error=default}}
+<div class="error">Oops! Something went wrong. Please try again.</div>
+{{/if}}
+{{#if error=wrongpass}}
+<div class="error">Oops! Incorrect password. Please try again.</div>
+{{/if}}
+{{#if error=wrongemail}}
+<div class="error">Oops! This email is not registered yet. Please sign up to show your support.</div>
+{{/if}}
 {{/if}}
 
 <!-- ERROR MESSAGES
@@ -33,6 +41,23 @@
 - Rejected promise error:
 "Something went wrong. Please try again."
 
+- Update database error:
+"Something went wrong. Please try again."
 
+/sign
+
+- Add signature to database error:
+"Something went wrong. Please try again."
+
+- No signature to add to database error:
+"Something went wrong. Please make sure you signed in the white area."
+
+/thanks
+
+- Error deleting signature
+"Something went wrong. Please try again."
+
+- Error deleting account
+"Something went wrong. Please try again."
 
  -->

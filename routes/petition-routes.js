@@ -40,7 +40,8 @@ router.post("/sign", requireId, requireNoSignature, (req, res) => {
             });
     } else {
         res.render("sign", {
-            error: true
+            error:
+                "Something went wrong. Please make sure you signed in the white area."
         });
     }
 });

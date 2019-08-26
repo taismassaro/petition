@@ -1,7 +1,9 @@
 <title>Make Teleportation Happen – Edit Profile</title>
 
 <h1>Edit your profile</h1>
-{{>error}}
+{{#if error}}
+<div class="error">Oops! {{error}}</div>
+{{/if}}
 <form method="post">
     {{#if user}}
   <label for="first">First Name</label>

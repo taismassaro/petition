@@ -7,7 +7,6 @@
     --blue: #2d4059;
     --white: #eee;
     --orange: #ff5722;
-    --font: ;
 }
 
 /* PHONE UP */
@@ -88,26 +87,15 @@ header {
     line-height: 1.1;
     letter-spacing: 0.035em;
     text-transform: capitalize;
-    /* margin-bottom: 1em; */
 }
 #header span {
     color: var(--white);
     font-weight: 300;
     opacity: 1;
 }
-#supporters div {
-    /* opacity: 0.8; */
 
-    font-size: 1em;
-    line-height: 1.4;
-    /* font-family: "Varela Round", sans-serif;
-    font-feature-settings: "tnum";
-    -webkit-font-feature-settings: "tnum";
-    -moz-font-feature-settings: "tnum"; */
-}
 .monospace {
     opacity: 0.4;
-
     font-family: "Varela Round", sans-serif;
     font-feature-settings: "tnum";
     -webkit-font-feature-settings: "tnum";

@@ -50,6 +50,10 @@ app.use(csurf());
 app.use(function(req, res, next) {
     console.log(`req.session in ${req.url}`, req.session);
     res.setHeader("X-Frame-Options", "DENY");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", 0);
+
     res.locals.csrfToken = req.csrfToken();
     next();
 });

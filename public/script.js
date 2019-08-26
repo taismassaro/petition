@@ -4,6 +4,14 @@ const signatureInput = $("input[name='signature']");
 const clear = $("button[name='clear']");
 const submit = $("button[name='sign']");
 
+// $(window).bind("pageshow", function(event) {
+//     if (event.originalEvent.persisted) {
+//         window.location.reload();
+//     } else if (performance.navigation.type == 2) {
+//         location.reload(true);
+//     }
+// });
+
 if (canvas.length) {
     const ctx = canvas[0].getContext("2d");
     resizeCanvas();
