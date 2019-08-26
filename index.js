@@ -52,7 +52,6 @@ app.use(function(req, res, next) {
     res.setHeader("X-Frame-Options", "DENY");
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     res.setHeader("Pragma", "no-cache");
-    res.setHeader("Expires", 0);
 
     res.locals.csrfToken = req.csrfToken();
     next();

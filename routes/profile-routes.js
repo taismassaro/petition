@@ -28,6 +28,7 @@ router.post("/profile", requireId, (req, res) => {
     console.log("Request:", req.body);
     db.addProfile(user.userId, req.body)
         .then(() => {
+            req.session.first = req.body.first;
             req.session.user.logged = true;
             res.redirect("/sign");
         })
