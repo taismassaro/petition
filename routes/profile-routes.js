@@ -35,7 +35,9 @@ router.post("/profile", requireId, (req, res) => {
         .catch(error => {
             console.log("ERROR:", orange(error));
             res.render("profile", {
-                error: "Something went wrong. Please try again."
+                error: {
+                    default: true
+                }
             });
         });
 });
@@ -62,7 +64,9 @@ router.get("/edit", requireId, (req, res) => {
             .catch(error => {
                 console.log("ERROR:", orange(error));
                 res.render("edit", {
-                    error: "Something went wrong. Please try again."
+                    error: {
+                        default: true
+                    }
                 });
             });
     }
@@ -86,7 +90,9 @@ router.post("/edit", requireId, (req, res) => {
                 console.log("ERROR:", orange(error));
                 res.render("edit", {
                     user: req.session.user,
-                    error: "Something went wrong. Please try again."
+                    error: {
+                        default: true
+                    }
                 });
             });
     } else if (req.body.btn === "delete") {
@@ -112,6 +118,11 @@ router.post("/delete", requireId, (req, res) => {
             })
             .catch(error => {
                 console.log("ERROR", orange(error));
+                res.render("delete", {
+                    error: {
+                        default: true
+                    }
+                });
             });
     } else if (req.body.btn === "no") {
         res.redirect("/edit");

@@ -5,14 +5,25 @@
 
 <nav>
     {{#if user}}
-    <div>Hi, <strong><a href="/sign">{{user.first}}</a></strong></div>
+
+    <div id="hambMenu">
+    <input type="checkbox">
+
+    <span></span>
+    <span></span>
+    <span></span>
+
+    <ul id="menu">
+    <li>Hi, <strong><a href="/sign">{{user.first}}</a></strong></li>
     {{#if signature}}
     {{#unless route}}
-    <div>&ensp;<span>|</span>&ensp;<a href="/supporters">{{count}} Supporters</a></div>
+    <li><a href="/supporters">{{count}} Supporters</a></li>
     {{/unless}}
     {{/if}}
-    <div>&ensp;<span>|</span>&ensp;<a href="/edit">Edit your profile</a></div>
-    <div>&ensp;<span>|</span>&ensp;<a href="/logout">Logout</a>
+    <li><a href="/edit">Edit your profile</a></li>
+    <li><a href="/logout">Logout</a>
+    </li>
+    </ul>
     </div>
     {{else}}
     {{#if login}}
@@ -22,6 +33,6 @@
     <div class="cat-login">Already a supporter?&emsp;<a href="/login">Login</a></div>
     {{/unless}}
     {{/if}}
+
     {{/if}}
 </nav>
-<!-- <div class="hover identifier">Edit your profile</div> -->

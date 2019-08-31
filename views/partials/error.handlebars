@@ -1,13 +1,21 @@
 {{#if error}}
-{{#if error=default}}
+
+{{#if error.default}}
 <div class="error">Oops! Something went wrong. Please try again.</div>
 {{/if}}
-{{#if error=wrongpass}}
-<div class="error">Oops! Incorrect password. Please try again.</div>
+
+{{#if error.wrongpass}}
+<div class="error">Oops! Invalid password. Please try again.</div>
 {{/if}}
-{{#if error=wrongemail}}
+
+{{#if error.wrongemail}}
 <div class="error">Oops! This email is not registered yet. Please sign up to show your support.</div>
 {{/if}}
+
+{{#if error.signerror}}
+<div class="error">Something went wrong. Please make sure you signed in the white area.</div>
+{{/if}}
+
 {{/if}}
 
 <!-- ERROR MESSAGES

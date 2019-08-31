@@ -35,13 +35,16 @@ router.post("/sign", requireId, requireNoSignature, (req, res) => {
             .catch(error => {
                 console.log("ERROR:", orange(error));
                 res.render("sign", {
-                    error: error
+                    error: {
+                        default: true
+                    }
                 });
             });
     } else {
         res.render("sign", {
-            error:
-                "Something went wrong. Please make sure you signed in the white area."
+            error: {
+                signerror: true
+            }
         });
     }
 });
@@ -52,7 +55,6 @@ router.get("/thanks", requireId, requireSignature, (req, res) => {
     console.log("Thanks page");
     db.getSignature(req.session.user.userId)
         .then(signature => {
-            // console.log("Signature:", signature);
             db.getCount()
                 .then(count => {
                     req.session.count = count;
@@ -84,6 +86,11 @@ router.post("/thanks", requireId, (req, res) => {
         })
         .catch(error => {
             console.log("ERROR", orange(error));
+            res.render("thanks", {
+                error: {
+                    default: true
+                }
+            });
         });
 });
 

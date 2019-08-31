@@ -21,7 +21,6 @@ test("POST /sign - if signature is valid, redirect to /thanks", () => {
         .post("/sign")
         .send(reqBody)
         .then(res => {
-            // console.log("res:", res);
             expect(res.statusCode).toBe(302);
             expect(res.headers.location).toBe("/thanks");
         });

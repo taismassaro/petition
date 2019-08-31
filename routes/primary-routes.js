@@ -47,7 +47,9 @@ router.post("/login", requireNoId, (req, res) => {
                             console.log("ERROR:", orange(error));
                             res.render("login", {
                                 login: true,
-                                error: "Something went wrong. Please try again."
+                                error: {
+                                    default: true
+                                }
                             });
                         });
 
@@ -56,7 +58,9 @@ router.post("/login", requireNoId, (req, res) => {
                     console.log(orange("Wrong credentials"));
                     res.render("login", {
                         login: true,
-                        error: "Incorrect password. Please try again."
+                        error: {
+                            wrongpass: true
+                        }
                     });
                 }
             });
@@ -65,8 +69,9 @@ router.post("/login", requireNoId, (req, res) => {
             console.log("ERROR:", orange(error));
             res.render("login", {
                 login: true,
-                error:
-                    "This email is not registered yet. Please sign up to show your support."
+                error: {
+                    wrongemail: true
+                }
             });
         });
 });
@@ -97,12 +102,16 @@ router.post("/register", requireNoId, (req, res) => {
             .catch(error => {
                 console.log("ERROR:", orange(error));
                 res.render("register", {
-                    error: error
+                    error: {
+                        default: true
+                    }
                 });
             });
     } else {
         res.render("register", {
-            error: "Invalid password. Please try again."
+            error: {
+                wrongpass: true
+            }
         });
     }
 });

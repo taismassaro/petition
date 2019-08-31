@@ -10,7 +10,7 @@ if (process.env.DATABASE_URL) {
     );
 }
 
-const { hash, compare } = require("./bc");
+const { hash } = require("./bc");
 
 const chalk = require("chalk");
 const orange = chalk.rgb(237, 142, 53);
