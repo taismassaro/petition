@@ -1,8 +1,8 @@
 const supertest = require("supertest");
-const { app } = require("./index");
+const { app } = require("../index");
 
-const db = require("./utils/db");
-jest.mock("./utils/db");
+const db = require("../utils/db");
+jest.mock("../utils/db");
 
 const cookieSession = require("cookie-session");
 
@@ -44,7 +44,7 @@ test("POST /sign - if input is bad, the response body contains an error message"
         .then(res => {
             expect(req.body.signature).toBe(true);
             expect(res.statusCode).toBe(200);
-            expect(res.text).toContain("Oops! Something went wrong.");
+            expect(res.text).toContain("Something went wrong.");
         });
 });
 
